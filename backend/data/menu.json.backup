@@ -16,11 +16,5 @@
     "name": "О проекте",
     "url": "/about",
     "order": 3
-  },
-  {
-    "id": "menu-1752864136599",
-    "name": "Контакты",
-    "url": "/contacts",
-    "order": 4
   }
 ]
