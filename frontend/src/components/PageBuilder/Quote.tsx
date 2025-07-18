@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface QuoteProps {
   text: string;
   author: string;
@@ -15,14 +17,16 @@ export function Quote({ text, author, position, avatar, className = '' }: QuoteP
         </svg>
         <div className="flex-1">
           <p className="text-lg text-gray-900 mb-4 italic">
-            "{text}"
+            &ldquo;{text}&rdquo;
           </p>
           <div className="flex items-center">
             {avatar && (
-              <img 
+              <Image 
                 src={avatar} 
                 alt={author}
-                className="w-12 h-12 rounded-full mr-4 object-cover"
+                width={48}
+                height={48}
+                className="rounded-full mr-4 object-cover"
               />
             )}
             <div>

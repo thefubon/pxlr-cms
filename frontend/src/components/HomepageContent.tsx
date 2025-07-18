@@ -1,7 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { HomepageData } from '../lib/homepage';
-import { ReactNode } from 'react';
 
 interface HomepageContentProps {
   data: HomepageData;

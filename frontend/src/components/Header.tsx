@@ -22,7 +22,6 @@ const fallbackMenu: MenuItem[] = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menu, setMenu] = useState<MenuItem[]>(fallbackMenu);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Загружаем меню при монтировании компонента
   useEffect(() => {
@@ -52,8 +51,6 @@ export function Header() {
       }
     } catch (error) {
       console.warn('Failed to load menu, using fallback:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

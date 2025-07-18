@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface GalleryImage {
   src: string;
@@ -32,10 +33,12 @@ export function ImageGallery({ images, columns = 3, className = '' }: ImageGalle
               className="relative aspect-square overflow-hidden rounded-lg bg-gray-200"
               onClick={() => setSelectedImage(index)}
             >
-              <img
+              <Image
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-200"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-200" />
             </div>
@@ -55,10 +58,13 @@ export function ImageGallery({ images, columns = 3, className = '' }: ImageGalle
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative max-w-4xl max-h-full">
-            <img
+            <Image
               src={images[selectedImage].src}
               alt={images[selectedImage].alt}
+              width={800}
+              height={600}
               className="max-w-full max-h-full object-contain"
+              sizes="100vw"
             />
             <button
               onClick={() => setSelectedImage(null)}
