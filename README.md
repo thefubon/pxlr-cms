@@ -1,5 +1,7 @@
 # PXLR CMS – Modern Headless CMS with Next.js
 
+<img width="1605" height="863" alt="Cover" src="https://github.com/user-attachments/assets/cd99206a-26e9-498b-bbf5-7b09866fd165" />
+
 Проект headless CMS на основе Next.js с monorepo структурой.
 
 ## Структура проекта
