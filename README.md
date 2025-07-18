@@ -1,4 +1,4 @@
-# PXLR CMS
+# PXLR CMS – Modern Headless CMS with Next.js
 
 Проект headless CMS на основе Next.js с monorepo структурой.
 
