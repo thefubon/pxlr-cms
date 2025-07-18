@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-gray-600 text-sm">
-              © 2024 PXLR CMS. Современная система управления контентом для Next.js
+              © 2025 PXLR CMS. Современная система управления контентом для Next.js
             </p>
           </div>
           
