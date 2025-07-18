@@ -105,10 +105,10 @@ const components = {
         alt={alt || ''}
         width={imageWidth}
         height={imageHeight}
-        className="rounded-lg shadow-md my-4 max-w-full h-auto"
+      className="rounded-lg shadow-md my-4 max-w-full h-auto"
         style={{ width: 'auto', height: 'auto' }}
-        {...props}
-      />
+      {...props}
+    />
     );
   },
   table: ({ children, ...props }: TableHTMLAttributes<HTMLTableElement>) => (

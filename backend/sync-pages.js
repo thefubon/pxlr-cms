@@ -8,6 +8,38 @@ const __dirname = path.dirname(__filename);
 const pagesFile = path.join(__dirname, 'data/pages.json');
 const pagesDir = path.join(__dirname, '../frontend/src/content/pages');
 
+// Safe JSON read function
+async function safeReadJson(filePath, defaultValue = {}) {
+  try {
+    if (!await fs.pathExists(filePath)) {
+      console.log(`📄 Creating missing file: ${path.basename(filePath)}`);
+      await fs.writeJson(filePath, defaultValue, { spaces: 2 });
+      return defaultValue;
+    }
+    
+    const stats = await fs.stat(filePath);
+    if (stats.size === 0) {
+      console.log(`📄 Repairing empty file: ${path.basename(filePath)}`);
+      await fs.writeJson(filePath, defaultValue, { spaces: 2 });
+      return defaultValue;
+    }
+    
+    const content = await fs.readFile(filePath, 'utf-8');
+    if (!content.trim()) {
+      console.log(`📄 Repairing blank file: ${path.basename(filePath)}`);
+      await fs.writeJson(filePath, defaultValue, { spaces: 2 });
+      return defaultValue;
+    }
+    
+    return await fs.readJson(filePath);
+  } catch (error) {
+    console.error(`❌ Error reading ${path.basename(filePath)}:`, error.message);
+    console.log(`📄 Restoring default content for: ${path.basename(filePath)}`);
+    await fs.writeJson(filePath, defaultValue, { spaces: 2 });
+    return defaultValue;
+  }
+}
+
 async function syncPages() {
   try {
     console.log('🔄 Синхронизация страниц из JSON в MDX...');
@@ -15,13 +47,17 @@ async function syncPages() {
     // Убедимся что папки существуют
     await fs.ensureDir(pagesDir);
     
-    // Прочитаем JSON файл со страницами
-    if (!await fs.pathExists(pagesFile)) {
-      console.log('❌ Файл pages.json не найден');
-      return;
-    }
+    // Прочитаем JSON файл со страницами с безопасной функцией
+    const defaultPages = {
+      home: {
+        title: 'Добро пожаловать на PXLR CMS',
+        content: 'Это демонстрационная страница',
+        slug: 'home',
+        isHomePage: true
+      }
+    };
     
-    const pages = await fs.readJson(pagesFile);
+    const pages = await safeReadJson(pagesFile, defaultPages);
     
     // Создадим MDX файлы для каждой страницы
     for (const [slug, pageData] of Object.entries(pages)) {

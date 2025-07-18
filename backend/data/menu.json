@@ -6,9 +6,15 @@
     "order": 1
   },
   {
-    "id": "menu-1752861986897",
-    "name": "Админ",
-    "url": "/admin",
+    "id": "posts",
+    "name": "Посты",
+    "url": "/posts",
     "order": 2
+  },
+  {
+    "id": "about",
+    "name": "О проекте",
+    "url": "/about",
+    "order": 3
   }
 ]
