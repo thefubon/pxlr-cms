@@ -1,0 +1,26 @@
+[
+  {
+    "id": "home",
+    "name": "Главная",
+    "url": "/",
+    "order": 1
+  },
+  {
+    "id": "menu-1752797299805",
+    "name": "О нас",
+    "url": "/about",
+    "order": 2
+  },
+  {
+    "id": "posts",
+    "name": "Посты",
+    "url": "/posts",
+    "order": 3
+  },
+  {
+    "id": "menu-1752789390815",
+    "name": "Контакты",
+    "url": "/contacts",
+    "order": 4
+  }
+]

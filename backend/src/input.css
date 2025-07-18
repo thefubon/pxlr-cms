@@ -1,0 +1,6 @@
+@import "tailwindcss";
+ 
+/* Кастомные стили для админки */
+.sidebar-transition {
+  transition: all 0.2s ease-in-out;
+} 

@@ -1,0 +1,28 @@
+{
+  "name": "pxlr-cms",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev:auto",
+    "dev:auto": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run open:browsers:delay\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:servers": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "open:browsers:once": "wait-on http://localhost:3000 http://localhost:3333 && open-cli http://localhost:3000 && open-cli http://localhost:3333",
+    "open:browsers:delay": "wait-on http://localhost:3000 http://localhost:3333 && open-cli http://localhost:3000 && open-cli http://localhost:3333 && echo 'Browsers opened successfully' && tail -f /dev/null",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build", 
+    "build:backend": "cd backend && npm run build",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "open-cli": "^8.0.0",
+    "wait-on": "^8.0.1"
+  }
+}
+ 
