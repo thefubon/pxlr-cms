@@ -6,15 +6,21 @@
     "order": 1
   },
   {
-    "id": "posts",
-    "name": "Посты",
-    "url": "/posts",
-    "order": 2
-  },
-  {
     "id": "about",
     "name": "О проекте",
     "url": "/about",
+    "order": 2
+  },
+  {
+    "id": "posts",
+    "name": "Посты",
+    "url": "/posts",
     "order": 3
+  },
+  {
+    "id": "menu-1752864136599",
+    "name": "Контакты",
+    "url": "/contacts",
+    "order": 4
   }
 ]
