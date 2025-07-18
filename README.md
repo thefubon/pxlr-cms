@@ -7,7 +7,7 @@
 ```
 pxlr-cms/
 ├── frontend/          # Next.js приложение (порт 3000)
-├── backend/           # Будущий headless CMS (порт 3333)
+├── backend/           # headless CMS (порт 3333)
 ├── package.json       # Корневой package.json для управления workspace
 └── pnpm-workspace.yaml # Конфигурация pnpm workspace
 ```
@@ -44,7 +44,7 @@ pnpm install
 # Установка зависимостей только для frontend
 pnpm --filter frontend install
 
-# Установка зависимостей только для backend (когда будет готов)
+# Установка зависимостей только для backend
 pnpm --filter backend install
 ```
 
@@ -57,7 +57,7 @@ pnpm build
 # Сборка только frontend
 pnpm build:frontend
 
-# Сборка только backend (когда будет готов)
+# Сборка только backend
 pnpm build:backend
 ```
 
