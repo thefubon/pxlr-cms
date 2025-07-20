@@ -1,0 +1,9 @@
+{
+  "general": {
+    "siteTitle": "Pixel & Layer CMS - Современная система управления контентом",
+    "siteDescription": "Современная CMS с Fastify backend, React админ-панелью и Next.js фронтендом"
+  },
+  "posts": {
+    "postsPerPage": 6
+  }
+}

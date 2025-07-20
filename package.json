@@ -1,0 +1,45 @@
+{
+  "name": "pxlr-cms",
+  "version": "0.1.1",
+  "description": "Full-stack CMS with Fastify backend, React admin panel, and Next.js frontend",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:admin\" \"npm run dev:frontend\" \"npm run sync:watch\" \"npm run open:browser\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:admin": "cd admin && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "sync": "node scripts/sync-content.js",
+    "sync:watch": "node scripts/sync-content.js --watch",
+    "open:browser": "wait-on http://localhost:3000 && open-cli http://localhost:3000",
+    "open:admin": "wait-on http://localhost:5173 && open-cli http://localhost:5173",
+    "install:all": "npm install && cd backend && npm install && cd ../admin && npm install && cd ../frontend && npm install",
+    "build": "npm run sync && concurrently \"npm run build:backend\" \"npm run build:admin\" \"npm run build:frontend\"",
+    "build:backend": "cd backend && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:admin\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm start",
+    "start:admin": "cd admin && npm run preview",
+    "start:frontend": "cd frontend && npm start",
+    "clean": "rm -rf node_modules backend/node_modules admin/node_modules frontend/node_modules",
+    "reset": "npm run clean && npm run install:all"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "open-cli": "^8.0.0",
+    "wait-on": "^7.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "cms",
+    "fastify",
+    "react",
+    "nextjs",
+    "typescript",
+    "mdx"
+  ],
+  "author": "",
+  "license": "MIT"
+} 
