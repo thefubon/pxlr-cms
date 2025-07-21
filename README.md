@@ -6,7 +6,7 @@
 
 ### DEMO
 
-FRONTENT: https://cms.pxlr.ru
+FRONTENT: https://cms.pxlr.ru<br/>
 ADMIN: https://admin.pxlr.ru
 
 ## 🚀 Быстрый старт
