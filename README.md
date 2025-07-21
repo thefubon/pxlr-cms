@@ -6,7 +6,7 @@
 
 ### DEMO
 
-SITE: https://cms.pxlr.ru<br/>
+WEBSITE: https://cms.pxlr.ru<br/>
 ADMIN: https://admin.pxlr.ru
 
 ## 🚀 Быстрый старт
