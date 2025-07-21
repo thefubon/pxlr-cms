@@ -4,6 +4,11 @@
 
 <img width="1728" height="958" alt="cover" src="https://github.com/user-attachments/assets/462d3c2d-7f6f-40d3-bf10-f57f0de3d783" />
 
+### DEMO
+
+FRONTENT: https://cms.pxlr.ru
+ADMIN: https://admin.pxlr.ru
+
 ## 🚀 Быстрый старт
 
 ### Установка зависимостей для всех проектов
