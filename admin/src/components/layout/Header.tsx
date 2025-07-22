@@ -31,9 +31,9 @@ export function Header() {
       bg: 'bg-red-50',
       text: 'text-red-700',
       dot: 'bg-red-500',
-      label: 'Не активен',
-      icon: null
-    };
+      label: 'Сервер не активен',
+      icon: null,
+    }
   };
 
   const statusDisplay = getStatusDisplay();

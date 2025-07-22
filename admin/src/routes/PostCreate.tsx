@@ -31,8 +31,8 @@ export function PostCreate() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center gap-4 border-b pb-5">
-        <Button asChild variant="outline" size="sm">
+      <div className="space-y-4 border-b pb-5">
+        <Button asChild variant="outline" size="sm" className="w-fit">
           <Link to="/posts">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Назад к постам

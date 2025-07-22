@@ -16,8 +16,7 @@ import {
   MousePointerClick,
   FileText,
   Image,
-  Minus,
-  Maximize2
+  Minus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Block, BlockType, BlockEditorData } from '@/types/block';
@@ -66,7 +65,6 @@ export const BlockEditor: React.FC<BlockEditorProps> = ({
 
   const [data, setData] = useState<BlockEditorData>(parseData);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Обновляем данные и вызываем onChange
   const updateData = useCallback((newData: any) => {
@@ -188,28 +186,7 @@ export const BlockEditor: React.FC<BlockEditorProps> = ({
     }
   }, [data, updateData]);
 
-  // Обработка полноэкранного режима
-  React.useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isFullscreen) {
-        setIsFullscreen(false);
-      }
-    };
 
-    if (isFullscreen) {
-      document.body.style.overflow = 'hidden';
-      document.addEventListener('keydown', handleEscape);
-    } else {
-      // Восстанавливаем скролл при закрытии fullscreen
-      document.body.style.overflow = '';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      // Всегда восстанавливаем скролл при размонтировании
-      document.body.style.overflow = '';
-    };
-  }, [isFullscreen]);
 
   // Рендерим блок
   const renderBlock = (block: Block) => {
@@ -366,31 +343,7 @@ export const BlockEditor: React.FC<BlockEditorProps> = ({
     </div>
   );
 
-  if (isFullscreen) {
-    return (
-      <div className="fixed inset-0 z-50 bg-background">
-        <div className="h-full flex flex-col">
-          <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="text-lg font-semibold">Редактор блоков</h2>
-            <Button variant="ghost" size="sm" onClick={() => setIsFullscreen(false)}>
-              ✕
-            </Button>
-          </div>
-          <div className="flex-1 overflow-auto p-4">
-            {data.blocks.length === 0 ? (
-              <EmptyState />
-            ) : (
-              <div className="space-y-8 w-full">
-                {data.blocks
-                  .sort((a, b) => a.order - b.order)
-                  .map(renderBlock)}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="space-y-4">
@@ -428,15 +381,7 @@ export const BlockEditor: React.FC<BlockEditorProps> = ({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setIsFullscreen(true)}
-          disabled={disabled}
-        >
-          <Maximize2 className="w-4 h-4 mr-2" />
-          Развернуть
-        </Button>
+
 
         {data.blocks.length > 0 && (
           <span className="text-sm text-muted-foreground">

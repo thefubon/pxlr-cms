@@ -13,11 +13,24 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { postFormInputSchema, PostFormInput } from '@/lib/validations';
 import { generateSlug } from '@/lib/utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BlockEditor } from './BlockEditor';
-import { RefreshCw } from 'lucide-react';
+import { TiptapEditor } from './TiptapEditor';
+import { MarkdownEditor } from './MarkdownEditor';
+import { RefreshCw, Package, Edit3, FileText, Maximize2, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface PostFormProps {
   defaultValues?: Partial<PostFormInput>;
@@ -34,6 +47,11 @@ export function PostForm({
   isLoading = false,
   submitLabel = "Создать пост" 
 }: PostFormProps) {
+  const [editorType, setEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>('markdown');
+  const [showSwitchDialog, setShowSwitchDialog] = useState(false);
+  const [pendingEditorType, setPendingEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>('markdown');
+  const [isContentFullscreen, setIsContentFullscreen] = useState(false);
+
   const form = useForm<PostFormInput>({
     resolver: zodResolver(postFormInputSchema),
     defaultValues: {
@@ -66,6 +84,60 @@ export function PostForm({
       form.setValue('slug', slug);
     }
   };
+
+  // Функции переключения редакторов
+  const handleEditorSwitch = (newType: 'markdown' | 'tiptap' | 'blocks') => {
+    if (newType === editorType) return;
+    
+    const currentContent = form.getValues('content');
+    if (currentContent && currentContent.trim() !== '') {
+      setPendingEditorType(newType);
+      setShowSwitchDialog(true);
+    } else {
+      setEditorType(newType);
+      const editorName = newType === 'markdown' ? 'Markdown' : newType === 'tiptap' ? 'TipTap' : 'блочный';
+      toast.success(`Переключено на ${editorName}`);
+    }
+  };
+
+  const confirmEditorSwitch = () => {
+    setEditorType(pendingEditorType);
+    form.setValue('content', ''); // Очищаем контент
+    setShowSwitchDialog(false);
+    const editorName = pendingEditorType === 'markdown' ? 'Markdown' : pendingEditorType === 'tiptap' ? 'TipTap' : 'блочный';
+    toast.success(`Переключено на ${editorName}`);
+  };
+
+  const cancelEditorSwitch = () => {
+    setShowSwitchDialog(false);
+    setPendingEditorType(editorType);
+  };
+
+  // Функции управления fullscreen
+  const handleContentFullscreen = () => {
+    setIsContentFullscreen(!isContentFullscreen);
+  };
+
+  // Управление escape для fullscreen
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isContentFullscreen) {
+        setIsContentFullscreen(false);
+      }
+    };
+
+    if (isContentFullscreen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [isContentFullscreen]);
 
   return (
     <Form {...form}>
@@ -187,22 +259,186 @@ export function PostForm({
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Содержимое</FormLabel>
-              <FormControl>
-                <BlockEditor
-                  value={field.value}
-                  onChange={field.onChange}
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormDescription>
-                Поддерживается Markdown форматирование
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            if (isContentFullscreen) {
+              return (
+                <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900">
+                  <div className="h-full flex flex-col">
+                    {/* Заголовок fullscreen */}
+                    <div className="px-4 pb-4 pt-2 border-b border-gray-200 dark:border-gray-700">
+                       <div className="flex justify-between items-center mb-4">
+                         <h2 className="text-base sm:text-lg font-semibold">Содержимое</h2>
+                         <Button
+                           type="button"
+                           variant="ghost"
+                           size="sm"
+                           onClick={handleContentFullscreen}
+                           title="Закрыть полноэкранный режим"
+                         >
+                           <X className="w-4 h-4" />
+                         </Button>
+                       </div>
+                       <div className="flex gap-1 sm:gap-2">
+                         <Button
+                           type="button"
+                           variant={editorType === 'markdown' ? 'default' : 'outline'}
+                           size="sm"
+                           className="sm:h-8 h-7"
+                           onClick={() => handleEditorSwitch('markdown')}
+                           disabled={isLoading}
+                           title="Markdown редактор"
+                         >
+                           <FileText className="w-4 h-4 sm:mr-2" />
+                           <span className="hidden sm:inline">Markdown</span>
+                         </Button>
+                         <Button
+                           type="button"
+                           variant={editorType === 'tiptap' ? 'default' : 'outline'}
+                           size="sm"
+                           className="sm:h-8 h-7"
+                           onClick={() => handleEditorSwitch('tiptap')}
+                           disabled={isLoading}
+                           title="TipTap редактор"
+                         >
+                           <Edit3 className="w-4 h-4 sm:mr-2" />
+                           <span className="hidden sm:inline">TipTap</span>
+                         </Button>
+                         <Button
+                           type="button"
+                           variant={editorType === 'blocks' ? 'default' : 'outline'}
+                           size="sm"
+                           className="sm:h-8 h-7"
+                           onClick={() => handleEditorSwitch('blocks')}
+                           disabled={isLoading}
+                           title="Блочный редактор"
+                         >
+                           <Package className="w-4 h-4 sm:mr-2" />
+                           <span className="hidden sm:inline">Blocks</span>
+                         </Button>
+                       </div>
+                     </div>
+                    
+                     {/* Контент редактора в fullscreen */}
+                     <div className="flex-1 overflow-auto">
+                       <FormControl>
+                         {editorType === 'markdown' ? (
+                           <MarkdownEditor
+                             value={field.value}
+                             onChange={field.onChange}
+                             disabled={isLoading}
+                             placeholder="Начните писать ваш Markdown пост..."
+                           />
+                         ) : editorType === 'tiptap' ? (
+                           <TiptapEditor
+                             value={field.value}
+                             onChange={field.onChange}
+                             disabled={isLoading}
+                             placeholder="Начните писать ваш пост..."
+                           />
+                         ) : (
+                           <BlockEditor
+                             value={field.value}
+                             onChange={field.onChange}
+                             disabled={isLoading}
+                           />
+                         )}
+                       </FormControl>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <FormItem>
+                <FormLabel className="mb-3 sm:mb-4 block text-base sm:text-sm font-medium">Содержимое</FormLabel>
+                <div className="flex items-center justify-between pb-6 sm:pb-8">
+                  <div className="flex gap-1 sm:gap-2">
+                    <Button
+                      type="button"
+                      variant={editorType === 'markdown' ? 'default' : 'outline'}
+                      size="sm"
+                      className="sm:h-8 h-7"
+                      onClick={() => handleEditorSwitch('markdown')}
+                      disabled={isLoading}
+                      title="Markdown редактор"
+                    >
+                      <FileText className="w-4 h-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Markdown</span>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={editorType === 'tiptap' ? 'default' : 'outline'}
+                      size="sm"
+                      className="sm:h-8 h-7"
+                      onClick={() => handleEditorSwitch('tiptap')}
+                      disabled={isLoading}
+                      title="TipTap редактор"
+                    >
+                      <Edit3 className="w-4 h-4 sm:mr-2" />
+                      <span className="hidden sm:inline">TipTap</span>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={editorType === 'blocks' ? 'default' : 'outline'}
+                      size="sm"
+                      className="sm:h-8 h-7"
+                      onClick={() => handleEditorSwitch('blocks')}
+                      disabled={isLoading}
+                      title="Блочный редактор"
+                    >
+                      <Package className="w-4 h-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Блоки</span>
+                    </Button>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="sm:h-8 h-7"
+                    onClick={handleContentFullscreen}
+                    disabled={isLoading}
+                    title="Развернуть на полный экран"
+                  >
+                    <Maximize2 className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Развернуть</span>
+                  </Button>
+                </div>
+                <FormControl>
+                  {editorType === 'markdown' ? (
+                    <MarkdownEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={isLoading}
+                      placeholder="Начните писать ваш Markdown пост..."
+                    />
+                  ) : editorType === 'tiptap' ? (
+                    <TiptapEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={isLoading}
+                      placeholder="Начните писать ваш пост..."
+                    />
+                  ) : (
+                    <BlockEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={isLoading}
+                    />
+                  )}
+                </FormControl>
+                <FormDescription>
+                  {editorType === 'markdown' 
+                    ? 'Классический Markdown редактор с предварительным просмотром и панелью инструментов.'
+                    : editorType === 'tiptap'
+                    ? 'TipTap WYSIWYG редактор с богатыми возможностями форматирования.'
+                    : 'Блочный редактор с компонентами. Поддерживается Markdown форматирование.'
+                  }
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
 
         {/* Черновик */}
@@ -243,6 +479,28 @@ export function PostForm({
           </Button>
         </div>
       </form>
+
+      {/* Диалог предупреждения о переключении редакторов */}
+      <AlertDialog open={showSwitchDialog} onOpenChange={setShowSwitchDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Переключение редактора</AlertDialogTitle>
+            <AlertDialogDescription>
+              При переключении на другой редактор весь текущий контент будет удален. 
+              Это необходимо для предотвращения конфликтов между разными технологиями 
+              редактирования. Вы уверены, что хотите продолжить?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelEditorSwitch}>
+              Отмена
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={confirmEditorSwitch}>
+              Да, переключить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Form>
   );
 } 

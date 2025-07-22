@@ -35,8 +35,8 @@ export function PostEdit() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center gap-4 border-b pb-5">
-          <Button asChild variant="outline" size="sm">
+        <div className="space-y-4 border-b pb-5">
+          <Button asChild variant="outline" size="sm" className="w-fit">
             <Link to="/posts">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Назад к постам
@@ -60,8 +60,8 @@ export function PostEdit() {
   if (error || !post) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center gap-4 border-b pb-5">
-          <Button asChild variant="outline" size="sm">
+        <div className="space-y-4 border-b pb-5">
+          <Button asChild variant="outline" size="sm" className="w-fit">
             <Link to="/posts">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Назад к постам
@@ -103,30 +103,32 @@ export function PostEdit() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center gap-4 border-b pb-5">
-        <Button asChild variant="outline" size="sm">
+      <div className="space-y-4 border-b pb-5">
+        <Button asChild variant="outline" size="sm" className="w-fit">
           <Link to="/posts">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Назад к постам
           </Link>
         </Button>
         
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold tracking-tight">Редактировать пост</h1>
-          <p className="text-muted-foreground">
-            Редактирование поста "{post.title}"
-          </p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold tracking-tight">Редактировать пост</h1>
+            <p className="text-muted-foreground">
+              Редактирование поста "{post.title}"
+            </p>
+          </div>
+          
+          <Button asChild variant="outline">
+            <a
+              href={`http://localhost:3000/posts/${post.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Посмотреть на сайте
+            </a>
+          </Button>
         </div>
-        
-        <Button asChild variant="outline">
-          <a
-            href={`http://localhost:3000/posts/${post.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Посмотреть на сайте
-          </a>
-        </Button>
       </div>
       
       {/* Form */}
