@@ -1,10 +1,10 @@
 # PXLR CMS v0.2.0
 
-<img width="1728" height="958" alt="cover" src="https://github.com/user-attachments/assets/462d3c2d-7f6f-40d3-bf10-f57f0de3d783" />
-
 > 🚀 **Современная CMS система** с революционным блочным редактором
 
 Полнофункциональная система управления контентом с **Fastify backend**, **React админ-панелью** и **Next.js frontend**.
+
+<img width="1728" height="958" alt="cover" src="https://github.com/user-attachments/assets/462d3c2d-7f6f-40d3-bf10-f57f0de3d783" />
 
 **Текущая версия:** `v0.2.0` | **Дата:** 22.01.2025 | **Релиз:** Block Editor & Major Redesign
 
