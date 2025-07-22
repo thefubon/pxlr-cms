@@ -22,11 +22,14 @@ export function PostEdit() {
       
       toast.success(`Пост "${data.title}" был обновлен`);
       
-      // Перенаправляем на список постов
-      navigate('/posts');
+      // Оставляем пользователя на той же странице после сохранения
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Не удалось обновить пост");
     }
+  };
+
+  const handleClose = () => {
+    navigate('/posts');
   };
 
   if (isLoading) {
@@ -131,6 +134,7 @@ export function PostEdit() {
         <PostForm 
           defaultValues={defaultValues}
           onSubmit={handleSubmit}
+          onClose={handleClose}
           isLoading={updatePost.isPending}
           submitLabel="Обновить пост"
         />

@@ -75,7 +75,7 @@ export default function Home() {
           <p className="text-sm text-muted-foreground">
             Или перейдите в{' '}
             <a 
-              href="http://localhost:5173" 
+              href="https://admin.pxlr.ru" 
               target="_blank" 
               rel="noopener noreferrer"
               className="underline hover:text-foreground"

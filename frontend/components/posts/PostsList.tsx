@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatCount } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -71,7 +71,7 @@ export function PostsList({ postsData }: PostsListProps) {
                     <Separator orientation="vertical" className="h-4" />
                     <div className="flex items-center gap-1">
                       <Tag className="h-4 w-4" />
-                      <span>{post.tags.length} тегов</span>
+                      <span>{formatCount(post.tags.length, ['тег', 'тега', 'тегов'])}</span>
                     </div>
                   </>
                 )}

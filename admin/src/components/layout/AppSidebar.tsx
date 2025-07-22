@@ -43,14 +43,13 @@ export function AppSidebar() {
               {navigation.map((item) => (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
+                    <NavLink
                       to={item.href}
                       className={({ isActive }) =>
-                        isActive 
-                          ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
+                        isActive
+                          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
                           : 'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
-                      }
-                    >
+                      }>
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>
                     </NavLink>
@@ -64,10 +63,19 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t px-6 py-4">
         <div className="text-xs text-muted-foreground text-center">
-          <p>PXLR CMS v1.0.0</p>
-          <p className="mt-1">© 2024 PXLR Team</p>
+                          <p>© 2025 PXLR CMS v0.2.0</p>
+          <p className="mt-1">
+            Сделано в{' '}
+            <a
+              href="https://fubon.ru"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline">
+              Fubon
+            </a>
+          </p>
         </div>
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 } 

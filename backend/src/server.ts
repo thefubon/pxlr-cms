@@ -4,6 +4,7 @@ import staticFiles from '@fastify/static';
 import * as path from 'path';
 import postsRoutes from './routes/posts';
 import settingsRoutes from './routes/settings';
+import { uploadsRoutes } from './routes/uploads';
 
 const fastify = Fastify({ 
   logger: true 
@@ -18,7 +19,11 @@ async function start() {
     await fastify.register(cors, {
       origin: [
         'http://localhost:3000', // Next.js frontend
+        'http://localhost:3002', // Next.js frontend (alternative port)
         'http://localhost:5173', // Vite admin
+        'http://localhost:5174', // Vite admin (alternative port)
+        'http://localhost:5175', // Vite admin (alternative port)
+        'http://localhost:5176', // Vite admin (alternative port)
       ],
       credentials: true,
     });
@@ -29,9 +34,17 @@ async function start() {
       prefix: '/content/',
     });
 
+    // Регистрируем статические файлы (для uploads)
+    await fastify.register(staticFiles, {
+      root: path.join(__dirname, '..', '..', 'frontend', 'public', 'uploads'),
+      prefix: '/uploads/',
+      decorateReply: false,
+    });
+
     // Регистрируем роуты для API
     await fastify.register(postsRoutes, { prefix: '/api' });
     await fastify.register(settingsRoutes);
+    await fastify.register(uploadsRoutes);
 
     // Health check
     fastify.get('/health', async (request, reply) => {

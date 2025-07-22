@@ -72,6 +72,20 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Убираем underline у ссылок внутри кнопок */
+  button a,
+  [role="button"] a {
+    @apply no-underline hover:no-underline;
+    text-decoration: none !important;
+  }
+  
+  /* Убираем стили ссылок в компонентах Button */
+  .inline-flex.items-center.justify-center a {
+    @apply no-underline hover:no-underline;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
 }
 
 /* Global styles */

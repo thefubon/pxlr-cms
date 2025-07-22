@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FileText, Plus, Activity, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { healthApi } from '@/lib/api';
-import { formatDate } from '@/lib/utils';
+import { formatDate, pluralize } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { usePosts } from '@/hooks/usePosts';
 
@@ -39,7 +39,7 @@ export function Dashboard() {
               <FileText className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Всего постов</p>
+                              <p className="text-sm font-medium text-muted-foreground">Всего {pluralize(posts.length, ['пост', 'поста', 'постов'])}</p>
               <p className="text-2xl font-bold">
                 {postsLoading ? '...' : posts.length}
               </p>

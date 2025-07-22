@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { FileText, Plus, MoreHorizontal, Edit, Trash2, Eye } from 'lucide-react';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatCount } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Post } from '@/types/post';
@@ -62,7 +62,7 @@ export function PostsList() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Все посты</h1>
           <p className="text-muted-foreground">
-            Управление всеми постами в системе ({posts.length} постов)
+            Управление всеми постами в системе ({formatCount(posts.length, ['пост', 'поста', 'постов'])})
           </p>
         </div>
         

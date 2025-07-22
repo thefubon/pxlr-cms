@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useSettings, useUpdateSettings } from '@/hooks/useSettings';
+import { formatCount, pluralize } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Loader2, FileText, Info } from 'lucide-react';
 
@@ -138,9 +139,9 @@ export function PostSettings() {
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>Всего постов: <strong>{totalPosts}</strong></span>
+                              <span>Всего: <strong>{formatCount(totalPosts, ['пост', 'поста', 'постов'])}</strong></span>
               <span>•</span>
-              <span>Постов на странице: <strong>{currentPostsPerPage || settings?.posts.postsPerPage || 6}</strong></span>
+                              <span>{pluralize(currentPostsPerPage || settings?.posts.postsPerPage || 6, ['Пост', 'Поста', 'Постов'])} на странице: <strong>{currentPostsPerPage || settings?.posts.postsPerPage || 6}</strong></span>
               <span>•</span>
               <span>Всего страниц: <strong>{totalPages}</strong></span>
             </div>

@@ -16,10 +16,13 @@ import {
 import { postFormInputSchema, PostFormInput } from '@/lib/validations';
 import { generateSlug } from '@/lib/utils';
 import { useEffect } from 'react';
+import { BlockEditor } from './BlockEditor';
+import { RefreshCw } from 'lucide-react';
 
 interface PostFormProps {
   defaultValues?: Partial<PostFormInput>;
   onSubmit: (data: PostFormInput) => void;
+  onClose?: () => void;
   isLoading?: boolean;
   submitLabel?: string;
 }
@@ -27,6 +30,7 @@ interface PostFormProps {
 export function PostForm({ 
   defaultValues, 
   onSubmit, 
+  onClose,
   isLoading = false,
   submitLabel = "Создать пост" 
 }: PostFormProps) {
@@ -53,6 +57,15 @@ export function PostForm({
       form.setValue('slug', slug);
     }
   }, [watchTitle, form]);
+
+  // Функция для ручной генерации slug
+  const handleGenerateSlug = () => {
+    const currentTitle = form.getValues('title');
+    if (currentTitle) {
+      const slug = generateSlug(currentTitle);
+      form.setValue('slug', slug);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -81,7 +94,20 @@ export function PostForm({
               <FormItem>
                 <FormLabel>Slug</FormLabel>
                 <FormControl>
-                  <Input placeholder="post-slug" {...field} />
+                  <div className="flex gap-2">
+                    <Input placeholder="post-slug" {...field} className="flex-1" />
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      size="sm"
+                      onClick={handleGenerateSlug}
+                      className="shrink-0"
+                      title="Сгенерировать URL из заголовка"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      Сгенерировать URL
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormDescription>
                   URL-дружественный идентификатор поста
@@ -165,10 +191,10 @@ export function PostForm({
             <FormItem>
               <FormLabel>Содержимое</FormLabel>
               <FormControl>
-                <Textarea 
-                  placeholder="Напишите ваш пост в формате Markdown..."
-                  className="min-h-[400px] font-mono"
-                  {...field} 
+                <BlockEditor
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormDescription>
@@ -205,6 +231,12 @@ export function PostForm({
           <Button type="submit" disabled={isLoading}>
             {isLoading ? "Сохранение..." : submitLabel}
           </Button>
+          
+          {onClose && (
+            <Button type="button" variant="outline" onClick={onClose}>
+              Закрыть
+            </Button>
+          )}
           
           <Button type="button" variant="outline" onClick={() => form.reset()}>
             Сбросить

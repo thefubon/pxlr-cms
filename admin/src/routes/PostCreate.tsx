@@ -17,11 +17,15 @@ export function PostCreate() {
       
       toast.success(`Пост "${data.title}" был создан`);
       
-      // Перенаправляем на список постов
-      navigate('/posts');
+      // После создания перенаправляем на редактирование
+      navigate(`/posts/${data.slug}/edit`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Не удалось создать пост");
     }
+  };
+
+  const handleClose = () => {
+    navigate('/posts');
   };
 
   return (
@@ -47,6 +51,7 @@ export function PostCreate() {
       <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
         <PostForm 
           onSubmit={handleSubmit}
+          onClose={handleClose}
           isLoading={createPost.isPending}
           submitLabel="Создать пост"
         />
