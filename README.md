@@ -6,6 +6,7 @@
 
 <img width="1728" height="958" alt="cover" src="https://github.com/user-attachments/assets/462d3c2d-7f6f-40d3-bf10-f57f0de3d783" />
 
+
 [![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](https://github.com/fubon/pxlr-cms/releases/tag/v0.3.1)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
