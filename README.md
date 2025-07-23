@@ -1,4 +1,4 @@
-# PXLR CMS v0.3.0
+# PIXEL & LAYER - PXLR CMS
 
 > 🚀 **Современная CMS система** построенная на **Fastify**, **React**, **Next.js 15**, **Tailwind CSS v4**, **TypeScript**, **Vite.js**, **shadcn/ui**
 

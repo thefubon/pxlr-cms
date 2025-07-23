@@ -33,7 +33,6 @@ export function PostSettings() {
     reset,
     watch,
     setValue,
-    getValues,
   } = useForm<PostSettingsForm>({
     resolver: zodResolver(postSettingsSchema),
     values: settings?.posts || {
