@@ -2,12 +2,15 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { PostsList } from '@/components/posts/PostsList';
 import { PostsFilter } from '@/components/posts/PostsFilter';
-import { getPosts, getAllTags } from '@/lib/mdx';
+import { CategoriesFilter } from '@/components/posts/CategoriesFilter';
+import { getPosts, getAllTags, getAllCategories } from '@/lib/mdx';
 
 interface PageProps {
   searchParams: Promise<{
     page?: string;
     tag?: string;
+    tags?: string;
+    category?: string;
   }>;
 }
 
@@ -15,16 +18,43 @@ interface PageProps {
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const resolvedSearchParams = await searchParams;
   const selectedTag = resolvedSearchParams.tag;
+  const tagsParam = resolvedSearchParams.tags;
+  const selectedCategory = resolvedSearchParams.category;
   const currentPage = parseInt(resolvedSearchParams.page || '1', 10);
 
-  if (selectedTag) {
-    const postsData = await getPosts({ tag: selectedTag, page: currentPage });
+  // Обработка тегов - поддерживаем как старый формат (tag), так и новый (tags)
+  let selectedTags: string[] = [];
+  if (tagsParam) {
+    selectedTags = tagsParam.split(',').map(tag => tag.trim()).filter(Boolean);
+  } else if (selectedTag) {
+    selectedTags = [selectedTag];
+  }
+
+  if (selectedCategory) {
+    const postsData = await getPosts({ category: selectedCategory, page: currentPage });
     return {
-      title: `Посты с тегом "${selectedTag}" — Страница ${currentPage}`,
-      description: `Найдено ${postsData.totalCount} постов с тегом "${selectedTag}". Читайте статьи и материалы по теме ${selectedTag}.`,
+      title: `Посты в категории "${selectedCategory}" — Страница ${currentPage}`,
+      description: `Найдено ${postsData.totalCount} постов в категории "${selectedCategory}". Читайте статьи и материалы по этой теме.`,
       openGraph: {
-        title: `Посты с тегом "${selectedTag}"`,
-        description: `Найдено ${postsData.totalCount} постов с тегом "${selectedTag}".`,
+        title: `Категория: ${selectedCategory}`,
+        description: `Найдено ${postsData.totalCount} постов в категории "${selectedCategory}".`,
+        type: 'website',
+      },
+    };
+  }
+
+  if (selectedTags.length > 0) {
+    const postsData = await getPosts({ tags: selectedTags, page: currentPage });
+    const tagsText = selectedTags.length === 1 
+      ? `"${selectedTags[0]}"` 
+      : selectedTags.map(tag => `"${tag}"`).join(', ');
+    
+    return {
+      title: `Посты с тегами ${tagsText} — Страница ${currentPage}`,
+      description: `Найдено ${postsData.totalCount} постов с тегами ${tagsText}. Читайте статьи и материалы по этим темам.`,
+      openGraph: {
+        title: `Посты с тегами ${tagsText}`,
+        description: `Найдено ${postsData.totalCount} постов с тегами ${tagsText}.`,
         type: 'website',
       },
     };
@@ -48,13 +78,25 @@ export default async function PostsPage({ searchParams }: PageProps) {
   const resolvedSearchParams = await searchParams;
   const currentPage = parseInt(resolvedSearchParams.page || '1', 10);
   const selectedTag = resolvedSearchParams.tag;
+  const tagsParam = resolvedSearchParams.tags;
+  const selectedCategory = resolvedSearchParams.category;
+
+  // Обработка тегов - поддерживаем как старый формат (tag), так и новый (tags)
+  let selectedTags: string[] = [];
+  if (tagsParam) {
+    selectedTags = tagsParam.split(',').map(tag => tag.trim()).filter(Boolean);
+  } else if (selectedTag) {
+    selectedTags = [selectedTag];
+  }
 
   const postsData = await getPosts({
     page: currentPage,
-    tag: selectedTag,
+    tags: selectedTags,
+    category: selectedCategory,
   });
 
   const allTags = getAllTags();
+  const allCategories = getAllCategories();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -62,20 +104,27 @@ export default async function PostsPage({ searchParams }: PageProps) {
       <div className="mb-8">
         <h1 className="text-4xl font-bold tracking-tight mb-4">Все посты</h1>
         <p className="text-muted-foreground text-lg">
-          {selectedTag 
-            ? `Посты с тегом "${selectedTag}" (${postsData.totalCount})`
+          {selectedCategory
+            ? `Категория: ${selectedCategory} (${postsData.totalCount})`
+            : selectedTags.length > 0
+            ? `Посты с тегами: ${selectedTags.join(', ')} (${postsData.totalCount})`
             : `Всего постов: ${postsData.totalCount}`
           }
         </p>
       </div>
 
       <div className="grid lg:grid-cols-4 gap-8">
-        {/* Sidebar with Tags */}
-        <aside className="lg:col-span-1">
+        {/* Sidebar with Filters */}
+        <aside className="lg:col-span-1 space-y-6">
           <Suspense fallback={<div>Загрузка фильтров...</div>}>
+            <CategoriesFilter 
+              categories={allCategories} 
+              selectedCategory={selectedCategory}
+              totalPosts={postsData.totalCount}
+            />
             <PostsFilter 
               tags={allTags} 
-              selectedTag={selectedTag}
+              selectedTags={selectedTags}
               totalPosts={postsData.totalCount}
             />
           </Suspense>

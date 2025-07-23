@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { postFormInputSchema, PostFormInput } from '@/lib/validations';
 import { generateSlug } from '@/lib/utils';
+import { useSettings } from '@/hooks/useSettings';
 import { useEffect, useState } from 'react';
 import { BlockEditor } from './BlockEditor';
 import { TiptapEditor } from './TiptapEditor';
@@ -52,6 +53,10 @@ export function PostForm({
   const [pendingEditorType, setPendingEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>('markdown');
   const [isContentFullscreen, setIsContentFullscreen] = useState(false);
 
+  // Загружаем настройки для получения категорий
+  const { data: settings } = useSettings();
+  const availableCategories = settings?.posts?.categories || [];
+
   const form = useForm<PostFormInput>({
     resolver: zodResolver(postFormInputSchema),
     defaultValues: {
@@ -61,6 +66,7 @@ export function PostForm({
       content: '',
       author: '',
       tags: [],
+      category: '',
       draft: false,
       ...defaultValues,
     },
@@ -210,6 +216,34 @@ export function PostForm({
           )}
         />
 
+        {/* Категория */}
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Категория</FormLabel>
+              <FormControl>
+                <select
+                  {...field}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                >
+                  <option value="">Выберите категорию</option>
+                  {availableCategories.map((category) => (
+                    <option key={category} value={category} className="capitalize">
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </FormControl>
+              <FormDescription>
+                Выберите одну категорию для поста
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="grid gap-4 md:grid-cols-2">
           {/* Автор */}
           <FormField
@@ -230,28 +264,61 @@ export function PostForm({
           <FormField
             control={form.control}
             name="tags"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Теги</FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="тег1, тег2, тег3"
-                    value={Array.isArray(field.value) ? field.value.join(', ') : ''}
-                    onChange={(e) => {
-                      const tags = e.target.value
-                        .split(',')
-                        .map(tag => tag.trim())
-                        .filter(Boolean);
-                      field.onChange(tags);
-                    }}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Разделяйте теги запятыми
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const [inputValue, setInputValue] = useState(
+                Array.isArray(field.value) ? field.value.join(', ') : ''
+              );
+
+              // Синхронизируем inputValue с field.value при изменении извне
+              useEffect(() => {
+                const newValue = Array.isArray(field.value) ? field.value.join(', ') : '';
+                if (newValue !== inputValue) {
+                  setInputValue(newValue);
+                }
+              }, [field.value]);
+
+              const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                const value = e.target.value;
+                setInputValue(value);
+              };
+
+              const handleBlur = () => {
+                // Обрабатываем теги только при потере фокуса
+                const tags = inputValue
+                  .split(',')
+                  .map(tag => tag.trim())
+                  .filter(Boolean);
+                field.onChange(tags);
+                setInputValue(tags.join(', '));
+              };
+
+              const handleKeyDown = (e: React.KeyboardEvent) => {
+                // Обрабатываем теги при нажатии Enter
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleBlur();
+                }
+              };
+
+              return (
+                <FormItem>
+                  <FormLabel>Теги</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="тег1, тег2, тег3"
+                      value={inputValue}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+                      onKeyDown={handleKeyDown}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Разделяйте теги запятыми
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
         </div>
 

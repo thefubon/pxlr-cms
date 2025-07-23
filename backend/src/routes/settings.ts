@@ -10,6 +10,7 @@ interface GeneralSettings {
 
 interface PostSettings {
   postsPerPage: number;
+  categories: string[];
 }
 
 interface Settings {
@@ -24,7 +25,17 @@ const defaultSettings: Settings = {
     siteDescription: 'Современная CMS с Fastify backend, React админ-панелью и Next.js фронтендом'
   },
   posts: {
-    postsPerPage: 6
+    postsPerPage: 6,
+    categories: [
+      'технологии',
+      'дизайн',
+      'разработка',
+      'туториалы',
+      'новости',
+      'обзоры',
+      'советы',
+      'инструменты'
+    ]
   }
 };
 
@@ -82,9 +93,15 @@ export default async function settingsRoutes(fastify: FastifyInstance) {
           posts: {
             type: 'object',
             properties: {
-              postsPerPage: { type: 'number', minimum: 1, maximum: 50 }
+              postsPerPage: { type: 'number', minimum: 1, maximum: 50 },
+              categories: {
+                type: 'array',
+                items: { type: 'string', minLength: 1, maxLength: 50 },
+                minItems: 0,
+                maxItems: 50
+              }
             },
-            required: ['postsPerPage']
+            required: ['postsPerPage', 'categories']
           }
         },
         required: ['general', 'posts']
@@ -105,6 +122,31 @@ export default async function settingsRoutes(fastify: FastifyInstance) {
       
       if (newSettings.posts.postsPerPage < 1 || newSettings.posts.postsPerPage > 50) {
         return reply.status(400).send({ error: 'Количество постов на странице должно быть от 1 до 50' });
+      }
+
+      // Валидация категорий
+      if (!Array.isArray(newSettings.posts.categories)) {
+        return reply.status(400).send({ error: 'Категории должны быть массивом' });
+      }
+
+      if (newSettings.posts.categories.length > 50) {
+        return reply.status(400).send({ error: 'Максимальное количество категорий: 50' });
+      }
+
+      // Проверяем каждую категорию
+      for (const category of newSettings.posts.categories) {
+        if (typeof category !== 'string' || !category.trim()) {
+          return reply.status(400).send({ error: 'Категория не может быть пустой' });
+        }
+        if (category.length > 50) {
+          return reply.status(400).send({ error: 'Название категории не должно превышать 50 символов' });
+        }
+      }
+
+      // Проверяем на дубликаты
+      const uniqueCategories = [...new Set(newSettings.posts.categories.map(c => c.trim().toLowerCase()))];
+      if (uniqueCategories.length !== newSettings.posts.categories.length) {
+        return reply.status(400).send({ error: 'Категории не должны повторяться' });
       }
 
       await saveSettings(newSettings);

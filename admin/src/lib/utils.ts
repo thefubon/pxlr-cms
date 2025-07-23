@@ -80,6 +80,7 @@ export function generateMDXContent(
   options?: {
     author?: string;
     tags?: string[];
+    category?: string;
     draft?: boolean;
   }
 ): string {
@@ -96,6 +97,10 @@ export function generateMDXContent(
 
   if (options?.tags && options.tags.length > 0) {
     frontmatter.push(`tags: [${options.tags.map(tag => `"${tag}"`).join(', ')}]`);
+  }
+
+  if (options?.category) {
+    frontmatter.push(`category: "${options.category}"`);
   }
 
   frontmatter.push(`draft: ${options?.draft || false}`);

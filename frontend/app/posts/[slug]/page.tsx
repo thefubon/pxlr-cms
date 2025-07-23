@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Calendar, User, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Tag, Folder } from 'lucide-react';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 
 interface PageProps {
@@ -110,6 +110,21 @@ export default async function PostPage({ params }: PageProps) {
               </>
             )}
 
+            {post.category && (
+              <>
+                <Separator orientation="vertical" className="h-4" />
+                <div className="flex items-center gap-2">
+                  <Folder className="h-4 w-4" />
+                  <Link 
+                    href={`/posts?category=${encodeURIComponent(post.category)}`}
+                    className="hover:text-primary capitalize"
+                  >
+                    {post.category}
+                  </Link>
+                </div>
+              </>
+            )}
+
             {post.tags && post.tags.length > 0 && (
               <>
                 <Separator orientation="vertical" className="h-4" />
@@ -121,10 +136,22 @@ export default async function PostPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
+          {/* Category and Tags */}
+          {(post.category || (post.tags && post.tags.length > 0)) && (
             <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
+              {post.category && (
+                <Badge variant="default" className="capitalize">
+                  <Link 
+                    href={`/posts?category=${encodeURIComponent(post.category)}`}
+                    className="hover:text-primary-foreground flex items-center gap-1"
+                  >
+                    <Folder className="h-3 w-3" />
+                    {post.category}
+                  </Link>
+                </Badge>
+              )}
+              
+              {post.tags && post.tags.map((tag) => (
                 <Badge key={tag} variant="secondary">
                   <Link 
                     href={`/posts?tag=${encodeURIComponent(tag)}`}
@@ -182,15 +209,27 @@ export default async function PostPage({ params }: PageProps) {
                   </CardDescription>
                 </CardHeader>
                 
-                {relatedPost.tags && relatedPost.tags.length > 0 && (
+                {(relatedPost.category || (relatedPost.tags && relatedPost.tags.length > 0)) && (
                   <CardContent className="pt-0">
                     <div className="flex flex-wrap gap-1">
-                      {relatedPost.tags.slice(0, 3).map((tag) => (
+                      {relatedPost.category && (
+                        <Badge variant="default" className="text-xs capitalize">
+                          <Link 
+                            href={`/posts?category=${encodeURIComponent(relatedPost.category)}`}
+                            className="hover:text-primary-foreground flex items-center gap-1"
+                          >
+                            <Folder className="h-3 w-3" />
+                            {relatedPost.category}
+                          </Link>
+                        </Badge>
+                      )}
+                      
+                      {relatedPost.tags && relatedPost.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="secondary" className="text-xs">
                           {tag}
                         </Badge>
                       ))}
-                      {relatedPost.tags.length > 3 && (
+                      {relatedPost.tags && relatedPost.tags.length > 3 && (
                         <Badge variant="outline" className="text-xs">
                           +{relatedPost.tags.length - 3}
                         </Badge>

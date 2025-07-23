@@ -34,6 +34,7 @@ export function useCreatePost() {
         {
           author: data.author,
           tags: data.tags || [],
+          category: data.category,
           draft: data.draft,
         }
       );
@@ -64,6 +65,7 @@ export function useUpdatePost() {
         {
           author: data.author,
           tags: data.tags || [],
+          category: data.category,
           draft: data.draft,
         }
       );

@@ -30,6 +30,10 @@ export const postFormInputSchema = z.object({
     .array(z.string())
     .optional(),
   
+  category: z
+    .string()
+    .optional(),
+  
   draft: z
     .boolean()
     .default(false),

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { PostsPagination } from './PostsPagination';
 import { PostsResponse } from '@/lib/mdx';
-import { Calendar, User, Tag } from 'lucide-react';
+import { Calendar, User, Tag, Folder } from 'lucide-react';
 
 interface PostsListProps {
   postsData: PostsResponse;
@@ -65,6 +65,21 @@ export function PostsList({ postsData }: PostsListProps) {
                     </div>
                   </>
                 )}
+
+                {post.category && (
+                  <>
+                    <Separator orientation="vertical" className="h-4" />
+                    <div className="flex items-center gap-1">
+                      <Folder className="h-4 w-4" />
+                      <Link 
+                        href={`/posts?category=${encodeURIComponent(post.category)}`}
+                        className="hover:text-primary capitalize"
+                      >
+                        {post.category}
+                      </Link>
+                    </div>
+                  </>
+                )}
                 
                 {post.tags && post.tags.length > 0 && (
                   <>
@@ -78,10 +93,25 @@ export function PostsList({ postsData }: PostsListProps) {
               </div>
             </CardHeader>
             
-            {post.tags && post.tags.length > 0 && (
+            {(post.category || (post.tags && post.tags.length > 0)) && (
               <CardContent className="pt-0">
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
+                  {post.category && (
+                    <Badge 
+                      variant="default"
+                      className="text-xs capitalize"
+                    >
+                      <Link 
+                        href={`/posts?category=${encodeURIComponent(post.category)}`}
+                        className="hover:text-primary-foreground flex items-center gap-1"
+                      >
+                        <Folder className="h-3 w-3" />
+                        {post.category}
+                      </Link>
+                    </Badge>
+                  )}
+                  
+                  {post.tags && post.tags.map((tag) => (
                     <Badge 
                       key={tag} 
                       variant="secondary"

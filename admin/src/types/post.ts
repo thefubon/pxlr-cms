@@ -6,6 +6,7 @@ export interface Post {
   date?: string;
   author?: string;
   tags?: string[];
+  category?: string;
   draft?: boolean;
 }
 
@@ -16,6 +17,7 @@ export interface PostFormValues {
   slug: string;
   author?: string;
   tags?: string[];
+  category?: string;
   draft?: boolean;
 }
 

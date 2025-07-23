@@ -10,68 +10,112 @@ import { Tag, X, Filter } from 'lucide-react';
 
 interface PostsFilterProps {
   tags: string[];
-  selectedTag?: string;
+  selectedTags?: string[];
   totalPosts: number;
 }
 
-export function PostsFilter({ tags, selectedTag, totalPosts }: PostsFilterProps) {
+export function PostsFilter({ tags, selectedTags = [], totalPosts }: PostsFilterProps) {
   const searchParams = useSearchParams();
 
-  // Создаем URL без тега
-  const createUrlWithoutTag = () => {
+  // Создаем URL без всех тегов
+  const createUrlWithoutTags = () => {
     const params = new URLSearchParams(searchParams.toString());
-    params.delete('tag');
+    params.delete('tags');
     params.delete('page'); // Сбрасываем страницу при сбросе фильтра
     return `/posts?${params.toString()}`;
   };
 
-  // Создаем URL с тегом
-  const createUrlWithTag = (tag: string) => {
+  // Создаем URL с добавлением/удалением тега
+  const createUrlWithToggleTag = (tag: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('tag', tag);
+    const isSelected = selectedTags.includes(tag);
+    
+    let newSelectedTags: string[];
+    
+    if (isSelected) {
+      // Убираем тег из выбранных
+      newSelectedTags = selectedTags.filter(t => t !== tag);
+    } else {
+      // Добавляем тег к выбранным
+      newSelectedTags = [...selectedTags, tag];
+    }
+    
     params.delete('page'); // Сбрасываем страницу при изменении фильтра
+    
+    if (newSelectedTags.length === 0) {
+      params.delete('tags');
+    } else {
+      params.set('tags', newSelectedTags.join(','));
+    }
+    
+    return `/posts?${params.toString()}`;
+  };
+
+  // Создаем URL для удаления конкретного тега
+  const createUrlWithoutSpecificTag = (tagToRemove: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    const newSelectedTags = selectedTags.filter(t => t !== tagToRemove);
+    
+    params.delete('page');
+    
+    if (newSelectedTags.length === 0) {
+      params.delete('tags');
+    } else {
+      params.set('tags', newSelectedTags.join(','));
+    }
+    
     return `/posts?${params.toString()}`;
   };
 
   return (
     <div className="space-y-6 sticky top-8">
-      {/* Active Filter */}
-      {selectedTag && (
+      {/* Active Filters */}
+      {selectedTags.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2">
               <Filter className="h-4 w-4" />
-              Активный фильтр
+              Активные фильтры
+              <Badge variant="secondary" className="ml-auto">
+                {selectedTags.length}
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-2">
-              <Badge variant="default" className="text-sm">
-                {selectedTag}
-              </Badge>
+            <div className="space-y-3">
+              {/* Список выбранных тегов */}
+              <div className="flex flex-wrap gap-2">
+                {selectedTags.map((tag) => (
+                  <div key={tag} className="flex items-center gap-1">
+                    <Badge variant="default" className="text-sm">
+                      {tag}
+                    </Badge>
+                    <Button 
+                      asChild
+                      variant="ghost" 
+                      size="sm"
+                      className="h-auto p-1"
+                    >
+                      <Link href={createUrlWithoutSpecificTag(tag)}>
+                        <X className="h-3 w-3" />
+                        <span className="sr-only">Убрать тег {tag}</span>
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              
               <Button 
                 asChild
-                variant="ghost" 
-                size="sm"
-                className="h-auto p-1"
+                variant="outline" 
+                size="sm" 
+                className="w-full"
               >
-                <Link href={createUrlWithoutTag()}>
-                  <X className="h-3 w-3" />
-                  <span className="sr-only">Убрать фильтр</span>
+                <Link href={createUrlWithoutTags()}>
+                  Очистить все фильтры
                 </Link>
               </Button>
             </div>
-            
-            <Button 
-              asChild
-              variant="outline" 
-              size="sm" 
-              className="mt-3 w-full"
-            >
-              <Link href={createUrlWithoutTag()}>
-                Показать все посты
-              </Link>
-            </Button>
           </CardContent>
         </Card>
       )}
@@ -95,7 +139,7 @@ export function PostsFilter({ tags, selectedTag, totalPosts }: PostsFilterProps)
           ) : (
             <div className="space-y-3">
               {/* All Posts Link */}
-              {!selectedTag && (
+              {selectedTags.length === 0 && (
                 <>
                   <div className="flex items-center justify-between p-2 rounded-md bg-primary/10">
                     <span className="text-sm font-medium">Все посты</span>
@@ -108,14 +152,14 @@ export function PostsFilter({ tags, selectedTag, totalPosts }: PostsFilterProps)
               {/* Individual Tags */}
               <div className="space-y-2">
                 {tags.map((tag) => {
-                  const isActive = selectedTag === tag;
+                  const isActive = selectedTags.includes(tag);
                   
                   return (
                     <Link
                       key={tag}
-                      href={createUrlWithTag(tag)}
+                      href={createUrlWithToggleTag(tag)}
                       className={`
-                        flex items-center justify-between p-2 rounded-md transition-colors hover:bg-muted
+                        flex items-center justify-between p-2 rounded-md transition-colors hover:bg-muted cursor-pointer
                         ${isActive ? 'bg-primary/10 border border-primary/20' : ''}
                       `}
                     >
@@ -123,13 +167,14 @@ export function PostsFilter({ tags, selectedTag, totalPosts }: PostsFilterProps)
                         {tag}
                       </span>
                       
-                      <Badge 
-                        variant={isActive ? "default" : "secondary"}
-                        className="text-xs"
-                      >
-                        {/* Здесь можно добавить подсчет постов по тегу если нужно */}
-                        #
-                      </Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge 
+                          variant={isActive ? "default" : "secondary"}
+                          className="text-xs"
+                        >
+                          {isActive ? '✓' : '+'}
+                        </Badge>
+                      </div>
                     </Link>
                   );
                 })}
@@ -145,8 +190,9 @@ export function PostsFilter({ tags, selectedTag, totalPosts }: PostsFilterProps)
           <CardTitle className="text-base">Информация</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground space-y-2">
-          <p>• Нажмите на тег для фильтрации</p>
-          <p>• Используйте кнопку ✕ для сброса</p>
+          <p>• Нажмите на тег для добавления/удаления</p>
+          <p>• Можно выбрать несколько тегов</p>
+          <p>• Используйте ✕ для удаления конкретного тега</p>
           <p>• Фильтры работают мгновенно</p>
         </CardContent>
       </Card>

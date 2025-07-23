@@ -4,6 +4,16 @@
     "siteDescription": "Современная CMS с Fastify backend, React админ-панелью и Next.js фронтендом"
   },
   "posts": {
-    "postsPerPage": 6
+    "postsPerPage": 6,
+    "categories": [
+      "технологии",
+      "дизайн",
+      "разработка",
+      "туториалы",
+      "новости",
+      "обзоры",
+      "советы",
+      "инструменты"
+    ]
   }
 }

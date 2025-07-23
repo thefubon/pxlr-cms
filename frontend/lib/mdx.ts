@@ -16,6 +16,7 @@ export interface Post {
   date: string;
   author?: string;
   tags?: string[];
+  category?: string;
   draft?: boolean;
 }
 
@@ -35,6 +36,18 @@ export function getAllTags(): string[] {
   const allTags = posts.flatMap(post => post.tags || []);
   const uniqueTags = [...new Set(allTags)];
   return uniqueTags.sort();
+}
+
+/**
+ * Получить все категории из всех постов
+ */
+export function getAllCategories(): string[] {
+  const posts = getAllPosts();
+  const allCategories = posts
+    .map(post => post.category)
+    .filter(Boolean) as string[];
+  const uniqueCategories = [...new Set(allCategories)];
+  return uniqueCategories.sort();
 }
 
 /**
@@ -71,8 +84,10 @@ export async function getPosts(options: {
   page?: number;
   perPage?: number;
   tag?: string;
+  tags?: string[];
+  category?: string;
 }): Promise<PostsResponse> {
-  const { page = 1, tag } = options;
+  const { page = 1, tag, tags, category } = options;
   
   // Получаем настройку postsPerPage из backend, если не указано явно
   let perPage = options.perPage;
@@ -88,12 +103,22 @@ export async function getPosts(options: {
   
   let posts = getAllPosts();
 
-  // Фильтрация по тегу
-  if (tag) {
+  // Фильтрация по тегам
+  const selectedTags = tags || (tag ? [tag] : []);
+  if (selectedTags.length > 0) {
     posts = posts.filter(post => 
       post.tags && post.tags.some(postTag => 
-        postTag.toLowerCase() === tag.toLowerCase()
+        selectedTags.some(selectedTag => 
+          postTag.toLowerCase() === selectedTag.toLowerCase()
+        )
       )
+    );
+  }
+
+  // Фильтрация по категории
+  if (category) {
+    posts = posts.filter(post => 
+      post.category && post.category.toLowerCase() === category.toLowerCase()
     );
   }
 
@@ -139,6 +164,7 @@ export function getPostBySlug(slug: string): Post | null {
       date: data.date || new Date().toISOString(),
       author: data.author,
       tags: data.tags || [],
+      category: data.category,
       draft: data.draft || false,
     };
   } catch (error) {

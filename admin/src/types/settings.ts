@@ -5,6 +5,7 @@ export interface GeneralSettings {
 
 export interface PostSettings {
   postsPerPage: number;
+  categories: string[];
 }
 
 export interface Settings {
