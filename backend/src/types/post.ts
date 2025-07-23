@@ -6,6 +6,7 @@ export interface Post {
   date?: string;
   author?: string;
   tags?: string[];
+  category?: string;
   draft?: boolean;
 }
 
@@ -15,6 +16,7 @@ export interface PostMetadata {
   date?: string;
   author?: string;
   tags?: string[];
+  category?: string;
   draft?: boolean;
 }
 

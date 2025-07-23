@@ -82,6 +82,7 @@ async function getPostBySlug(slug) {
             date: data.date || new Date().toISOString(),
             author: data.author,
             tags: data.tags || [],
+            category: data.category,
             draft: data.draft || false,
         };
     }

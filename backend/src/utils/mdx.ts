@@ -50,6 +50,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       date: data.date || new Date().toISOString(),
       author: data.author,
       tags: data.tags || [],
+      category: data.category,
       draft: data.draft || false,
     };
   } catch (error) {

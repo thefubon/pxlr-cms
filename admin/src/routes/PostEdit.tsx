@@ -97,6 +97,7 @@ export function PostEdit() {
     content: parsedContent.content,
     author: post.author || '',
     tags: post.tags || [],
+    category: post.category || '',
     draft: post.draft || false,
   };
 
