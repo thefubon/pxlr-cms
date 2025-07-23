@@ -137,18 +137,6 @@ export function CategoriesFilter({ categories, selectedCategory, totalPosts }: C
           )}
         </CardContent>
       </Card>
-
-      {/* Filter Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">О категориях</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground space-y-2">
-          <p>• Одна категория на пост</p>
-          <p>• Нажмите для фильтрации</p>
-          <p>• Используйте ✕ для сброса</p>
-        </CardContent>
-      </Card>
     </div>
   );
 } 

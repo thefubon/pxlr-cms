@@ -1,7 +1,11 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { remark } from 'remark';
+import html from 'remark-html';
 
 type BlockType = 'markdown' | 'button' | 'heading' | 'image' | 'spacer';
 type BlockWidth = 'fullsize' | 'container';
@@ -55,53 +59,44 @@ interface BlockRendererProps {
 
 // Компонент для рендеринга Markdown
 const MarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
-  // Простой Markdown парсер для заголовков, параграфов и списков
+  // Качественный рендер markdown используя remark (синхронно)
   const renderMarkdown = (text: string) => {
-    if (!text) return null;
-
-    const lines = text.split('\n');
-    const elements: React.ReactNode[] = [];
-    let currentList: string[] = [];
-    let key = 0;
-
-    const flushList = () => {
-      if (currentList.length > 0) {
-        elements.push(
-          <ul key={`list-${key++}`} className="list-disc list-inside mb-4">
-            {currentList.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        );
-        currentList = [];
-      }
-    };
-
-    lines.forEach((line, index) => {
-      const trimmed = line.trim();
-      
-      if (trimmed.startsWith('# ')) {
-        flushList();
-        elements.push(<h1 key={index} className="text-4xl font-bold mb-4">{trimmed.slice(2)}</h1>);
-      } else if (trimmed.startsWith('## ')) {
-        flushList();
-        elements.push(<h2 key={index} className="text-3xl font-bold mb-4">{trimmed.slice(3)}</h2>);
-      } else if (trimmed.startsWith('### ')) {
-        flushList();
-        elements.push(<h3 key={index} className="text-2xl font-semibold mb-3">{trimmed.slice(4)}</h3>);
-      } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-        currentList.push(trimmed.slice(2));
-      } else if (trimmed) {
-        flushList();
-        elements.push(<p key={index} className="mb-4">{trimmed}</p>);
-      }
-    });
-
-    flushList();
-    return elements;
+    if (!text) return '';
+    try {
+      const processedContent = remark()
+        .use(html, { sanitize: false })
+        .processSync(text);
+      return processedContent.toString();
+    } catch (error) {
+      console.error('Markdown parsing error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      return `<p>Ошибка парсинга Markdown: ${errorMessage}</p>`;
+    }
   };
 
-  return <div className="prose prose-stone max-w-none prose-p:text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-em:text-foreground prose-code:text-foreground prose-pre:text-foreground prose-blockquote:text-foreground prose-li:text-foreground">{renderMarkdown(content)}</div>;
+  const htmlContent = renderMarkdown(content);
+
+  return (
+    <div 
+      className="prose prose-stone max-w-none dark:prose-invert
+                 prose-p:mb-6 prose-p:mt-0 prose-p:text-foreground
+                 prose-h1:mb-6 prose-h1:mt-6 prose-h1:text-foreground
+                 prose-h2:mb-6 prose-h2:mt-5 prose-h2:text-foreground
+                 prose-h3:mb-6 prose-h3:mt-4 prose-h3:text-foreground
+                 prose-ul:mb-6 prose-ul:mt-2 prose-ul:text-foreground
+                 prose-ol:mb-6 prose-ol:mt-2 prose-ol:text-foreground
+                 prose-li:mb-1 prose-li:mt-0 prose-li:text-foreground prose-li:leading-relaxed
+                 prose-blockquote:mb-6 prose-blockquote:mt-3 prose-blockquote:text-foreground prose-blockquote:border-l-primary
+                 prose-pre:mb-6 prose-pre:mt-3 prose-pre:bg-slate-50 prose-pre:text-slate-900 prose-pre:border prose-pre:rounded-lg prose-pre:p-3
+                 prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                 dark:prose-code:bg-slate-800 dark:prose-code:text-slate-100
+                 dark:prose-pre:bg-slate-900 dark:prose-pre:text-slate-100
+                 prose-strong:text-foreground prose-strong:font-semibold
+                 prose-em:text-foreground
+                 prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
+      dangerouslySetInnerHTML={{ __html: htmlContent }}
+    />
+  );
 };
 
 // Компонент для рендеринга отдельного блока

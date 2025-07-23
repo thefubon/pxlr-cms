@@ -125,7 +125,7 @@ export function PostsFilter({ tags, selectedTags = [], totalPosts }: PostsFilter
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Tag className="h-4 w-4" />
-            Все теги
+            Теги
             <Badge variant="secondary" className="ml-auto">
               {tags.length}
             </Badge>
@@ -181,19 +181,6 @@ export function PostsFilter({ tags, selectedTags = [], totalPosts }: PostsFilter
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
-
-      {/* Filter Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Информация</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground space-y-2">
-          <p>• Нажмите на тег для добавления/удаления</p>
-          <p>• Можно выбрать несколько тегов</p>
-          <p>• Используйте ✕ для удаления конкретного тега</p>
-          <p>• Фильтры работают мгновенно</p>
         </CardContent>
       </Card>
     </div>

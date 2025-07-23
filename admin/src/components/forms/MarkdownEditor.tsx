@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { marked } from 'marked';
 
 import {
   Bold,
@@ -104,39 +105,22 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   const makeQuote = () => insertLine('> ');
   const makeCode = () => insertText('`', '`', 'код');
 
-  // Простой рендер markdown для предварительного просмотра
+  // Настройка marked для лучшего рендеринга
+  marked.setOptions({
+    breaks: true, // Переносы строк как <br>
+    gfm: true, // GitHub Flavored Markdown
+  });
+
+  // Качественный рендер markdown для предварительного просмотра
   const renderMarkdown = (text: string) => {
-    return text
-      // Заголовки
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      
-      // Жирный и курсив
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      
-      // Ссылки
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-      
-      // Изображения
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto;" />')
-      
-      // Код
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      
-      // Блоки кода
-      .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-      
-      // Цитаты
-      .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-      
-      // Списки
-      .replace(/^- (.*$)/gim, '<li>$1</li>')
-      .replace(/^1\. (.*$)/gim, '<li>$1</li>')
-      
-      // Переносы строк
-      .replace(/\n/g, '<br>');
+    if (!text) return '';
+    try {
+      return marked(text);
+    } catch (error) {
+      console.error('Markdown parsing error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      return `<p>Ошибка парсинга Markdown: ${errorMessage}</p>`;
+    }
   };
 
   return (
@@ -310,8 +294,22 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         <TabsContent value="preview" className="mt-0">
           <div className="min-h-[400px] p-4 border border-t-0 border-gray-200 dark:border-gray-700 rounded-b-lg bg-white dark:bg-gray-950">
             <div 
-              className="prose prose-sm max-w-none dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: renderMarkdown(value) || '<p className="text-gray-500">Начните писать, чтобы увидеть предварительный просмотр...</p>' }}
+              className="prose prose-sm max-w-none dark:prose-invert 
+                         prose-p:mb-6 prose-p:mt-0
+                         prose-h1:mb-6 prose-h1:mt-6
+                         prose-h2:mb-6 prose-h2:mt-5  
+                         prose-h3:mb-6 prose-h3:mt-4
+                         prose-ul:mb-6 prose-ul:mt-2
+                         prose-ol:mb-6 prose-ol:mt-2
+                         prose-li:mb-1 prose-li:mt-0
+                         prose-blockquote:mb-6 prose-blockquote:mt-3
+                         prose-pre:mb-6 prose-pre:mt-3
+                         prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                         prose-pre:bg-slate-50 prose-pre:text-slate-900 prose-pre:border prose-pre:rounded-lg prose-pre:p-3
+                         dark:prose-code:bg-slate-800 dark:prose-code:text-slate-100
+                         dark:prose-pre:bg-slate-900 dark:prose-pre:text-slate-100
+                         prose-strong:font-semibold"
+              dangerouslySetInnerHTML={{ __html: renderMarkdown(value) || '<p class="text-gray-500 dark:text-gray-400">Начните писать, чтобы увидеть предварительный просмотр...</p>' }}
             />
           </div>
         </TabsContent>

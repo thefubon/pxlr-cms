@@ -38,7 +38,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Функция для получения URL в зависимости от среды
 function getAdminUrl(): string {
-  return IS_PRODUCTION ? 'https://admin.pxlr.ru' : 'http://localhost:5175';
+  return IS_PRODUCTION ? 'https://admin.pxlr.ru' : 'http://localhost:5173';
 }
 
 
@@ -110,15 +110,15 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-full px-6 py-3 text-sm font-medium shadow-lg">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
                 <span className="text-slate-700 dark:text-slate-300">Современная CMS нового поколения</span>
-                <Badge variant="secondary" className="ml-2 text-xs">v0.4.0</Badge>
+                <Badge variant="secondary" className="ml-2 text-xs">v0.4.1</Badge>
               </div>
               
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-950/50 dark:to-pink-950/50 backdrop-blur-sm border border-orange-200 dark:border-orange-800 rounded-full px-4 py-2 text-sm font-medium shadow-md">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-blue-100 dark:from-emerald-950/50 dark:to-blue-950/50 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800 rounded-full px-4 py-2 text-sm font-medium shadow-md">
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full animate-pulse"></div>
-                  <span className="text-orange-700 dark:text-orange-300 font-semibold">Новое в v0.4.0:</span>
+                  <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full animate-pulse"></div>
+                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Обновлено в v0.4.1:</span>
                 </div>
-                <span className="text-pink-700 dark:text-pink-300 font-medium">Теги & Категории</span>
+                <span className="text-blue-700 dark:text-blue-300 font-medium">Markdown Редактор</span>
               </div>
             </div>
 
@@ -498,7 +498,7 @@ export default function Home() {
               Всё для современного контент-менеджмента
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Мощные инструменты для создания, редактирования и управления контентом. Теперь с продвинутой системой тегов и категорий в версии 0.4.0
+              Мощные инструменты для создания, редактирования и управления контентом. Продвинутая система тегов и категорий, улучшенный markdown редактор с качественным preview в версии 0.4.1
             </p>
           </div>
 
@@ -733,7 +733,7 @@ export default function Home() {
                 Открытый исходный код
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                PXLR CMS — это open source проект. Версия 0.4.0 принесла мульти-теги, категории и улучшенную фильтрацию. Изучайте код, вносите изменения и адаптируйте под свои нужды
+                PXLR CMS — это open source проект. Версия 0.4.1 включает улучшенный markdown редактор, качественный preview и мульти-теги с категориями. Изучайте код, вносите изменения и адаптируйте под свои нужды
               </p>
             </div>
 

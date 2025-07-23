@@ -63,7 +63,7 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t px-6 py-4">
         <div className="text-xs text-muted-foreground text-center">
-                          <p>© 2025 PXLR CMS v0.3.0</p>
+                          <p>© 2025 PXLR CMS v0.4.1</p>
           <p className="mt-1">
             Сделано в{' '}
             <a

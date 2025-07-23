@@ -168,19 +168,22 @@ export default async function PostPage({ params }: PageProps) {
         <Separator className="mb-8" />
 
         {/* Post Content */}
-        <div className="prose prose-lg max-w-none
-                       prose-headings:tracking-tight 
-                       prose-h1:text-4xl prose-h1:font-bold
-                       prose-h2:text-3xl prose-h2:font-semibold prose-h2:mt-8 prose-h2:mb-4
-                       prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3
-                       prose-p:leading-relaxed prose-p:text-foreground
-                       prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+        <div className="prose prose-lg max-w-none dark:prose-invert
+                       prose-p:mb-6 prose-p:mt-0 prose-p:text-foreground prose-p:leading-relaxed
+                       prose-h1:mb-6 prose-h1:mt-6 prose-h1:text-foreground prose-h1:tracking-tight prose-h1:text-4xl prose-h1:font-bold
+                       prose-h2:mb-6 prose-h2:mt-5 prose-h2:text-foreground prose-h2:tracking-tight prose-h2:text-3xl prose-h2:font-semibold
+                       prose-h3:mb-6 prose-h3:mt-4 prose-h3:text-foreground prose-h3:tracking-tight prose-h3:text-2xl prose-h3:font-semibold
+                       prose-ul:mb-6 prose-ul:mt-2 prose-ul:text-foreground
+                       prose-ol:mb-6 prose-ol:mt-2 prose-ol:text-foreground
+                       prose-li:mb-1 prose-li:mt-0 prose-li:text-foreground prose-li:leading-relaxed
+                       prose-blockquote:mb-6 prose-blockquote:mt-3 prose-blockquote:text-foreground prose-blockquote:border-l-primary prose-blockquote:border-l-4 prose-blockquote:pl-6 prose-blockquote:italic
+                       prose-pre:mb-6 prose-pre:mt-3 prose-pre:bg-slate-50 prose-pre:text-slate-900 prose-pre:border prose-pre:rounded-lg prose-pre:p-3
+                       prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                       dark:prose-code:bg-slate-800 dark:prose-code:text-slate-100
+                       dark:prose-pre:bg-slate-900 dark:prose-pre:text-slate-100
                        prose-strong:text-foreground prose-strong:font-semibold
-                       prose-code:text-primary prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
-                       prose-pre:bg-muted prose-pre:border prose-pre:rounded-lg
-                       prose-blockquote:border-l-primary prose-blockquote:border-l-4 prose-blockquote:pl-6 prose-blockquote:italic
-                       prose-ul:text-foreground prose-ol:text-foreground
-                       prose-li:text-foreground prose-li:leading-relaxed">
+                       prose-em:text-foreground
+                       prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
           <BlockRenderer content={post.content} />
         </div>
       </article>
