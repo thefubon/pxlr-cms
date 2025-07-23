@@ -22,67 +22,69 @@ export function Dashboard() {
   const recentPosts = posts.slice(0, 5);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Page Header */}
-      <div className="border-b pb-5">
-        <h1 className="text-3xl font-bold tracking-tight">Дашборд</h1>
-        <p className="text-muted-foreground">
+      <div className="border-b pb-4 md:pb-5">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Дашборд</h1>
+        <p className="text-sm md:text-base text-muted-foreground mt-1">
           Обзор вашей CMS системы и последних активностей
         </p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <FileText className="h-6 w-6 text-primary" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="rounded-lg border bg-card p-4 md:p-6 text-card-foreground shadow-sm">
+          <div className="flex items-center space-x-3 md:space-x-4">
+            <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+              <FileText className="h-5 w-5 md:h-6 md:w-6 text-primary" />
             </div>
-            <div>
-                              <p className="text-sm font-medium text-muted-foreground">Всего {pluralize(posts.length, ['пост', 'поста', 'постов'])}</p>
-              <p className="text-2xl font-bold">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs md:text-sm font-medium text-muted-foreground truncate">
+                Всего {pluralize(posts.length, ['пост', 'поста', 'постов'])}
+              </p>
+              <p className="text-xl md:text-2xl font-bold">
                 {postsLoading ? '...' : posts.length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Activity className="h-6 w-6 text-green-600" />
+        <div className="rounded-lg border bg-card p-4 md:p-6 text-card-foreground shadow-sm">
+          <div className="flex items-center space-x-3 md:space-x-4">
+            <div className="p-2 bg-green-100 rounded-lg flex-shrink-0">
+              <Activity className="h-5 w-5 md:h-6 md:w-6 text-green-600" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Опубликовано</p>
-              <p className="text-2xl font-bold">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs md:text-sm font-medium text-muted-foreground truncate">Опубликовано</p>
+              <p className="text-xl md:text-2xl font-bold">
                 {postsLoading ? '...' : publishedPosts.length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <Clock className="h-6 w-6 text-yellow-600" />
+        <div className="rounded-lg border bg-card p-4 md:p-6 text-card-foreground shadow-sm">
+          <div className="flex items-center space-x-3 md:space-x-4">
+            <div className="p-2 bg-yellow-100 rounded-lg flex-shrink-0">
+              <Clock className="h-5 w-5 md:h-6 md:w-6 text-yellow-600" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Черновики</p>
-              <p className="text-2xl font-bold">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs md:text-sm font-medium text-muted-foreground truncate">Черновики</p>
+              <p className="text-xl md:text-2xl font-bold">
                 {postsLoading ? '...' : draftPosts.length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Plus className="h-6 w-6 text-purple-600" />
+        <div className="rounded-lg border bg-card p-4 md:p-6 text-card-foreground shadow-sm">
+          <div className="flex items-center space-x-3 md:space-x-4">
+            <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
+              <Plus className="h-5 w-5 md:h-6 md:w-6 text-purple-600" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Создать пост</p>
-              <Button asChild variant="link" className="p-0 h-auto text-purple-600">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs md:text-sm font-medium text-muted-foreground truncate">Создать пост</p>
+              <Button asChild variant="link" className="p-0 h-auto text-purple-600 text-xs md:text-sm">
                 <Link to="/posts/new">
                   Новый пост →
                 </Link>
@@ -93,10 +95,10 @@ export function Dashboard() {
       </div>
 
       {/* Recent Posts */}
-      <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-lg font-semibold">Последние посты</h2>
-          <Button asChild variant="outline" size="sm">
+      <div className="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-6 border-b gap-3 sm:gap-0">
+          <h2 className="text-base md:text-lg font-semibold">Последние посты</h2>
+          <Button asChild variant="outline" size="sm" className="self-start sm:self-auto">
             <Link to="/posts">
               Посмотреть все
             </Link>
@@ -105,11 +107,11 @@ export function Dashboard() {
 
         <div className="divide-y">
           {postsLoading ? (
-            <div className="p-6 text-center text-muted-foreground">
+            <div className="p-4 md:p-6 text-center text-muted-foreground">
               Загрузка...
             </div>
           ) : recentPosts.length === 0 ? (
-            <div className="p-8 text-center">
+            <div className="p-6 md:p-8 text-center">
               <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
               <h3 className="mt-2 text-sm font-semibold">Нет постов</h3>
               <p className="mt-1 text-sm text-muted-foreground">
@@ -126,8 +128,8 @@ export function Dashboard() {
             </div>
           ) : (
             recentPosts.map((post) => (
-              <div key={post.slug} className="p-6">
-                <div className="flex items-center justify-between">
+              <div key={post.slug} className="p-4 md:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-medium truncate">
                       {post.title}
@@ -135,18 +137,18 @@ export function Dashboard() {
                     <p className="text-sm text-muted-foreground truncate">
                       {post.description}
                     </p>
-                    <div className="mt-1 flex items-center text-xs text-muted-foreground">
+                    <div className="mt-1 flex flex-wrap items-center text-xs text-muted-foreground gap-1">
                       <span>{formatDate(post.date || '')}</span>
                       {post.draft && (
                         <>
-                          <span className="mx-2">•</span>
+                          <span>•</span>
                           <span className="text-yellow-600">Черновик</span>
                         </>
                       )}
                     </div>
                   </div>
-                  <div className="ml-4">
-                    <Button asChild variant="outline" size="sm">
+                  <div className="flex-shrink-0">
+                    <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
                       <Link to={`/posts/${post.slug}/edit`}>
                         Редактировать
                       </Link>
@@ -161,14 +163,14 @@ export function Dashboard() {
 
       {/* Server Status */}
       {healthData && (
-        <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-          <h2 className="text-lg font-semibold mb-4">Статус сервера</h2>
-          <div className="flex items-center space-x-4">
+        <div className="rounded-lg border bg-card p-4 md:p-6 text-card-foreground shadow-sm">
+          <h2 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Статус сервера</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
             <div className="flex items-center">
-              <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse mr-2"></div>
+              <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse mr-2 flex-shrink-0"></div>
               <span className="text-sm">Сервер работает</span>
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-xs md:text-sm text-muted-foreground">
               Последняя проверка: {formatDate(healthData.timestamp)}
             </div>
           </div>

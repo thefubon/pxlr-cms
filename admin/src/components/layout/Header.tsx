@@ -1,6 +1,7 @@
 import { Settings, User, Loader2, RefreshCw } from 'lucide-react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { useServerStatus } from '@/hooks/useServerStatus';
 
 export function Header() {
@@ -54,7 +55,7 @@ export function Header() {
 
   return (
     <TooltipProvider>
-    <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b">
+    <header className="flex h-16 shrink-0 items-center gap-2 px-4 lg:px-6 border-b w-full">
       <SidebarTrigger className="-ml-1" />
       
       <div className="flex-1" />
@@ -87,6 +88,8 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-1">
+          <ThemeToggle />
+          
           <button className="p-2 rounded-md hover:bg-accent" aria-label="Настройки">
             <Settings className="h-5 w-5 text-muted-foreground" />
           </button>

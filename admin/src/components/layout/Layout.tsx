@@ -13,10 +13,10 @@ export function Layout({ children }: LayoutProps) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="bg-background">
         <Header />
-        <main className="flex-1 p-4 lg:p-6 overflow-auto">
-          <div className="max-w-7xl mx-auto">
+        <main className="flex-1 p-4 lg:p-6 overflow-auto bg-background w-full">
+          <div className="w-full">
             {children}
           </div>
         </main>

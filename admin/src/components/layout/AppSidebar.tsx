@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { NavLink } from 'react-router-dom';
 
@@ -21,6 +22,16 @@ const navigation = [
 ];
 
 export function AppSidebar() {
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  // Обработчик клика по навигационным ссылкам
+  const handleNavClick = () => {
+    // Закрываем сайдбар только в мобильной версии
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
@@ -45,6 +56,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.href}
+                      onClick={handleNavClick}
                       className={({ isActive }) =>
                         isActive
                           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
@@ -63,7 +75,7 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t px-6 py-4">
         <div className="text-xs text-muted-foreground text-center">
-                          <p>© 2025 PXLR CMS v0.4.1</p>
+                          <p>© 2025 PXLR CMS v0.5.0</p>
           <p className="mt-1">
             Сделано в{' '}
             <a

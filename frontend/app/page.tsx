@@ -30,7 +30,8 @@ import {
   Coffee,
   Lightbulb,
   Target,
-  TrendingUp
+  TrendingUp,
+  Moon
 } from 'lucide-react';
 
 // Конфигурация URL для разных сред
@@ -110,15 +111,15 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-full px-6 py-3 text-sm font-medium shadow-lg">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
                 <span className="text-slate-700 dark:text-slate-300">Современная CMS нового поколения</span>
-                <Badge variant="secondary" className="ml-2 text-xs">v0.4.1</Badge>
+                <Badge variant="secondary" className="ml-2 text-xs">v0.5.0</Badge>
               </div>
               
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-blue-100 dark:from-emerald-950/50 dark:to-blue-950/50 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800 rounded-full px-4 py-2 text-sm font-medium shadow-md">
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Обновлено в v0.4.1:</span>
+                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Обновлено в v0.5.0:</span>
                 </div>
-                <span className="text-blue-700 dark:text-blue-300 font-medium">Markdown Редактор</span>
+                <span className="text-blue-700 dark:text-blue-300 font-medium">Темная тема + Адаптивность</span>
               </div>
             </div>
 
@@ -498,7 +499,7 @@ export default function Home() {
               Всё для современного контент-менеджмента
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Мощные инструменты для создания, редактирования и управления контентом. Продвинутая система тегов и категорий, улучшенный markdown редактор с качественным preview в версии 0.4.1
+              Мощные инструменты для создания, редактирования и управления контентом. Полная поддержка темной темы, адаптивный дизайн и улучшенный UX в версии 0.5.0
             </p>
           </div>
 
@@ -623,6 +624,26 @@ export default function Home() {
             <Card className="border-2 hover:border-primary/20 transition-all hover:shadow-xl group relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <CardHeader className="relative">
+                <div className="h-14 w-14 bg-gradient-to-br from-slate-600 to-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Moon className="h-7 w-7 text-white" />
+                </div>
+                <CardTitle className="text-xl">Тёмная тема</CardTitle>
+              </CardHeader>
+              <CardContent className="relative">
+                <CardDescription className="text-base leading-relaxed mb-4">
+                  Полная поддержка темной темы с автоматическим определением системных предпочтений и плавными переходами.
+                </CardDescription>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary" className="text-xs">Auto-switch</Badge>
+                  <Badge variant="secondary" className="text-xs">Система</Badge>
+                  <Badge variant="secondary" className="text-xs">Глаза</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:border-primary/20 transition-all hover:shadow-xl group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <CardHeader className="relative">
                 <div className="h-14 w-14 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Users className="h-7 w-7 text-white" />
                 </div>
@@ -733,7 +754,7 @@ export default function Home() {
                 Открытый исходный код
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                PXLR CMS — это open source проект. Версия 0.4.1 включает улучшенный markdown редактор, качественный preview и мульти-теги с категориями. Изучайте код, вносите изменения и адаптируйте под свои нужды
+                PXLR CMS — это open source проект. Версия 0.5.0 добавляет полную поддержку темной темы, улучшенную адаптивность и лучший UX. Изучайте код, вносите изменения и адаптируйте под свои нужды
               </p>
             </div>
 

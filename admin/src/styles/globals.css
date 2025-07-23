@@ -69,8 +69,443 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors;
+  }
+  
+  /* Принудительно применяем цвета для основных элементов */
+  #root {
+    @apply bg-background text-foreground min-h-screen;
+  }
+  
+  /* Убеждаемся что все компоненты используют правильные цвета */
+  .dark {
+    color-scheme: dark;
+  }
+  
+  .light {
+    color-scheme: light;
+  }
+  
+  /* Принудительно темные цвета для всех основных элементов */
+  .dark body,
+  .dark #root {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  
+  /* Улучшенная поддержка темной темы для форм */
+  .dark input,
+  .dark textarea,
+  .dark select {
+    background-color: hsl(var(--input));
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+  
+  /* Улучшенная поддержка для выпадающих меню */
+  .dark [role="menu"],
+  .dark [role="menuitem"] {
+    background-color: hsl(var(--popover));
+    color: hsl(var(--popover-foreground));
+  }
+  
+  /* Принудительная темизация для всех элементов */
+  .dark * {
+    border-color: hsl(var(--border));
+  }
+  
+  /* Улучшенная темизация для карточек и контейнеров */
+  .dark [data-radix-collection-item],
+  .dark [data-radix-popper-content-wrapper] > div {
+    background-color: hsl(var(--popover));
+    border-color: hsl(var(--border));
+  }
+  
+  /* Темизация для кнопок и интерактивных элементов */
+  .dark button:not([data-variant="ghost"]):not([data-variant="outline"]) {
+    color: hsl(var(--primary-foreground));
+  }
+  
+  /* Убираем принудительные светлые цвета */
+  .dark .bg-white {
+    background-color: hsl(var(--card)) !important;
+  }
+  
+  .dark .text-black {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .dark .border-gray-200,
+  .dark .border-gray-300 {
+    border-color: hsl(var(--border));
+  }
+  
+  /* Адаптация системных цветов для темной темы */
+  .dark .bg-green-50 {
+    @apply bg-green-950/20;
+  }
+  
+  .dark .text-green-700 {
+    @apply text-green-400;
+  }
+  
+  .dark .bg-yellow-50 {
+    @apply bg-yellow-950/20;
+  }
+  
+  .dark .text-yellow-700 {
+    @apply text-yellow-400;
+  }
+  
+  .dark .bg-red-50 {
+    @apply bg-red-950/20;
+  }
+  
+  .dark .text-red-700 {
+    @apply text-red-400;
+  }
+  
+  /* Статусные индикаторы остаются яркими в темной теме */
+  .dark .bg-green-500 {
+    background-color: #10b981;
+  }
+  
+  .dark .bg-yellow-500 {
+    background-color: #f59e0b;
+  }
+  
+  .dark .bg-red-500 {
+    background-color: #ef4444;
+  }
+  
+  /* Улучшенная темизация кнопок */
+  .dark button {
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+  }
+  
+  .dark button:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+  
+  /* Исправление для белых кнопок и фонов */
+  .dark .bg-white,
+  .dark [style*="background-color: white"],
+  .dark [style*="background: white"] {
+    background-color: hsl(var(--card)) !important;
+    color: hsl(var(--card-foreground)) !important;
+  }
+  
+  /* Исправление текста и заголовков */
+  .dark h1,
+  .dark h2, 
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6 {
+    color: hsl(var(--foreground));
+  }
+  
+  .dark p,
+  .dark span,
+  .dark div {
+    color: hsl(var(--foreground));
+  }
+  
+  /* Исправление для primary кнопок */
+  .dark [data-variant="default"],
+  .dark .bg-primary {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+  
+  /* Исправление для карточек */
+  .dark .rounded-lg,
+  .dark .rounded-xl,
+  .dark .rounded {
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--border));
+    color: hsl(var(--card-foreground));
+  }
+  
+  /* Принудительная темизация всех текстов */
+  .dark * {
+    color: inherit;
+  }
+  
+  /* Исправление для конкретных цветов текста */
+  .dark .text-gray-900,
+  .dark .text-gray-800,
+  .dark .text-gray-700,
+  .dark .text-black {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .dark .text-gray-600,
+  .dark .text-gray-500 {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+  
+  /* Дополнительные исправления для темной темы */
+  .dark .shadow,
+  .dark .shadow-lg,
+  .dark .shadow-xl {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Адаптация цветных фонов в Dashboard */
+  .dark .bg-green-100 {
+    background-color: rgba(16, 185, 129, 0.15);
+  }
+  
+  .dark .text-green-600 {
+    color: #10b981;
+  }
+  
+  .dark .bg-yellow-100 {
+    background-color: rgba(245, 158, 11, 0.15);
+  }
+  
+  .dark .text-yellow-600 {
+    color: #f59e0b;
+  }
+  
+  .dark .bg-purple-100 {
+    background-color: rgba(147, 51, 234, 0.15);
+  }
+  
+  .dark .text-purple-600 {
+    color: #a855f7;
+  }
+  
+  /* Исправление для ссылок в кнопках */
+  .dark .text-purple-600 {
+    color: #a855f7 !important;
+  }
+  
+  /* Исправление для статусных индикаторов */
+  .dark .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Принудительное исправление разделителей */
+  .dark .divide-y > :not([hidden]) ~ :not([hidden]) {
+    border-top-color: hsl(var(--border));
+  }
+  
+  .dark .border-b {
+    border-bottom-color: hsl(var(--border));
+  }
+  
+  /* Исправление для link вариантов кнопок */
+  .dark [data-variant="link"] {
+    color: hsl(var(--primary));
+  }
+  
+  .dark [data-variant="link"]:hover {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+  }
+  
+  /* Исправление для outline кнопок */
+  .dark [data-variant="outline"] {
+    background-color: transparent;
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+  
+  .dark [data-variant="outline"]:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+  
+  /* Глобальное исправление для всех элементов с белыми фонами */
+  .dark .bg-white {
+    background-color: hsl(var(--card)) !important;
+  }
+  
+  /* Исправление для truncate текста */
+  .dark .truncate {
+    color: inherit;
+  }
+  
+  /* Принудительное наследование цвета для всех дочерних элементов */
+  .dark [class*="card"] *,
+  .dark .bg-card * {
+    color: hsl(var(--card-foreground));
+  }
+  
+  /* Исправление цветов в предпросмотре настроек */
+  .dark .text-blue-600 {
+    color: #60a5fa !important;
+  }
+  
+  .dark .text-green-700 {
+    color: #34d399 !important;
+  }
+  
+  .dark .text-gray-600 {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+  
+  /* Исправление для кнопок переключения редакторов */
+  .dark button[type="button"] {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+  }
+  
+  .dark button[type="button"]:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+  
+  /* Исправление для активных кнопок variant="default" */
+  .dark button[data-variant="default"],
+  .dark button[variant="default"] {
+    background-color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+  }
+  
+  /* Исправление для кнопок outline */
+  .dark button[data-variant="outline"],
+  .dark button[variant="outline"] {
+    background-color: transparent !important;
+    color: hsl(var(--foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  .dark button[data-variant="outline"]:hover,
+  .dark button[variant="outline"]:hover {
+    background-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+  }
+  
+  /* Исправление для кнопок ghost */
+  .dark button[data-variant="ghost"],
+  .dark button[variant="ghost"] {
+    background-color: transparent !important;
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .dark button[data-variant="ghost"]:hover,
+  .dark button[variant="ghost"]:hover {
+    background-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+  }
+  
+  /* Исправление disabled состояний */
+  .dark button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Исправление для иконок в кнопках */
+  .dark button svg {
+    color: inherit;
+  }
+  
+  /* Исправление для select элементов */
+  .dark select {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+  }
+  
+  .dark select option {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  
+  /* Исправление для панели инструментов TipTap */
+  .dark .bg-gray-50 {
+    background-color: hsl(var(--muted)) !important;
+  }
+  
+  .dark .bg-gray-800 {
+    background-color: hsl(var(--card)) !important;
+  }
+  
+  .dark .border-gray-200 {
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  .dark .border-gray-700 {
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  .dark .border-gray-300 {
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  .dark .border-gray-600 {
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  /* Исправление для полноэкранного режима */
+  .dark .bg-gray-900 {
+    background-color: hsl(var(--background)) !important;
+  }
+  
+  /* Исправление для форм и их элементов */
+  .dark form button {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--border));
+  }
+  
+  .dark form button[type="button"] {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+  }
+  
+  .dark form button[type="button"]:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+  
+  /* Исправление для диалогов Alert */
+  .dark [role="alertdialog"] button {
+    color: hsl(var(--foreground));
+  }
+  
+  /* Исправление для кнопок в CardContent */
+  .dark .space-y-6 button,
+  .dark .space-y-4 button {
+    color: hsl(var(--foreground));
+  }
+  
+  /* Принудительное исправление для всех кнопок в темной теме */
+  .dark .inline-flex.items-center.justify-center {
+    background-color: var(--bg, hsl(var(--background)));
+    color: var(--color, hsl(var(--foreground)));
+    border-color: var(--border-color, hsl(var(--border)));
+  }
+  
+  /* Улучшенная поддержка hover состояний */
+  .dark .inline-flex.items-center.justify-center:hover:not(:disabled) {
+    background-color: var(--hover-bg, hsl(var(--accent)));
+    color: var(--hover-color, hsl(var(--accent-foreground)));
+  }
+  
+  /* Исправление для кнопок с классом shrink-0 (кнопки генерации) */
+  .dark .shrink-0 {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+  }
+  
+  .dark .shrink-0:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
   }
   
   /* Убираем underline у ссылок внутри кнопок */
