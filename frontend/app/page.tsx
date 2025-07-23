@@ -82,7 +82,7 @@ export default function Home() {
       number: allTags.length,
       label: getPlural(allTags.length, 'тег', 'тега', 'тегов'),
       icon: Settings,
-      description: 'Категорий'
+      description: 'Тегов'
     },
     {
       number: 100,
@@ -105,20 +105,29 @@ export default function Home() {
         
         <div className="relative container mx-auto px-4">
           <div className="max-w-5xl mx-auto text-center space-y-8">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-full px-6 py-3 text-sm font-medium shadow-lg">
-              <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-              <span className="text-slate-700 dark:text-slate-300">Современная CMS нового поколения</span>
-                              <Badge variant="secondary" className="ml-2 text-xs">v0.3.0</Badge>
+                        {/* Badge */}
+            <div className="space-y-4 flex flex-col items-center justify-center">
+              <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-full px-6 py-3 text-sm font-medium shadow-lg">
+                <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                <span className="text-slate-700 dark:text-slate-300">Современная CMS нового поколения</span>
+                <Badge variant="secondary" className="ml-2 text-xs">v0.4.0</Badge>
+              </div>
+              
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-950/50 dark:to-pink-950/50 backdrop-blur-sm border border-orange-200 dark:border-orange-800 rounded-full px-4 py-2 text-sm font-medium shadow-md">
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full animate-pulse"></div>
+                  <span className="text-orange-700 dark:text-orange-300 font-semibold">Новое в v0.4.0:</span>
+                </div>
+                <span className="text-pink-700 dark:text-pink-300 font-medium">Теги & Категории</span>
+              </div>
             </div>
 
             {/* Hero Title */}
             <div className="space-y-6">
               <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight">
                 <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
-                  PXLR
+                  PXLR{" "}
                 </span>
-                <br />
                 <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
                   CMS
                 </span>
@@ -130,6 +139,8 @@ export default function Home() {
                 <span className="text-blue-600 dark:text-blue-400 font-semibold"> Vite+React</span>,
                 <span className="text-cyan-600 dark:text-cyan-400 font-semibold"> Tailwind CSS</span> с 
                 <span className="text-slate-800 dark:text-slate-200 font-semibold"> 3 редакторами</span>,
+                <span className="text-orange-600 dark:text-orange-400 font-semibold"> мульти-тегами</span>,
+                <span className="text-pink-600 dark:text-pink-400 font-semibold"> категориями</span>,
                 <span className="text-primary font-semibold"> MDX</span> и 
                 <span className="text-purple-600 dark:text-purple-400 font-semibold"> TypeScript</span>
               </p>
@@ -365,6 +376,10 @@ export default function Home() {
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <span>Теги и категории</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                       <span>Настройки системы</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
@@ -483,7 +498,7 @@ export default function Home() {
               Всё для современного контент-менеджмента
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Мощные инструменты для создания, редактирования и управления контентом любой сложности
+              Мощные инструменты для создания, редактирования и управления контентом. Теперь с продвинутой системой тегов и категорий в версии 0.4.0
             </p>
           </div>
 
@@ -492,19 +507,19 @@ export default function Home() {
             <Card className="border-2 hover:border-primary/20 transition-all hover:shadow-xl group relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               <CardHeader className="relative">
-                <div className="h-14 w-14 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="h-14 w-14 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Layers className="h-7 w-7 text-white" />
                 </div>
-                <CardTitle className="text-xl">3 Типа редакторов</CardTitle>
+                <CardTitle className="text-xl">Теги и Категории</CardTitle>
               </CardHeader>
               <CardContent className="relative">
                 <CardDescription className="text-base leading-relaxed mb-4">
-                  Markdown для простоты, TipTap WYSIWYG для богатого контента, блочный редактор для структурированного контента.
+                  Мульти-выбор тегов, удобные категории с динамическим управлением. Фильтрация по множественным критериям для точного поиска контента.
                 </CardDescription>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary" className="text-xs">Markdown</Badge>
-                  <Badge variant="secondary" className="text-xs">WYSIWYG</Badge>
-                  <Badge variant="secondary" className="text-xs">Blocks</Badge>
+                  <Badge variant="secondary" className="text-xs">Мульти-теги</Badge>
+                  <Badge variant="secondary" className="text-xs">Категории</Badge>
+                  <Badge variant="secondary" className="text-xs">Фильтры</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -524,6 +539,26 @@ export default function Home() {
                 <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                   <TrendingUp className="h-4 w-4" />
                   <span>До 10x быстрее</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 hover:border-primary/20 transition-all hover:shadow-xl group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <CardHeader className="relative">
+                <div className="h-14 w-14 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Edit3 className="h-7 w-7 text-white" />
+                </div>
+                <CardTitle className="text-xl">3 Типа редакторов</CardTitle>
+              </CardHeader>
+              <CardContent className="relative">
+                <CardDescription className="text-base leading-relaxed mb-4">
+                  Markdown для простоты, TipTap WYSIWYG для богатого контента, блочный редактор для структурированного контента.
+                </CardDescription>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary" className="text-xs">Markdown</Badge>
+                  <Badge variant="secondary" className="text-xs">WYSIWYG</Badge>
+                  <Badge variant="secondary" className="text-xs">Blocks</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -698,7 +733,7 @@ export default function Home() {
                 Открытый исходный код
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                PXLR CMS — это open source проект. Изучайте код, вносите изменения и адаптируйте под свои нужды
+                PXLR CMS — это open source проект. Версия 0.4.0 принесла мульти-теги, категории и улучшенную фильтрацию. Изучайте код, вносите изменения и адаптируйте под свои нужды
               </p>
             </div>
 
