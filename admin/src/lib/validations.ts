@@ -37,6 +37,10 @@ export const postFormInputSchema = z.object({
   draft: z
     .boolean()
     .default(false),
+  
+  editorType: z
+    .enum(['markdown', 'tiptap', 'blocks'])
+    .default('markdown'),
 });
 
 // Схема для обработки данных (с трансформацией тегов в строку)

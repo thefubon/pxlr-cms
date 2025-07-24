@@ -26,7 +26,6 @@ export function useCreatePost() {
 
   return useMutation({
     mutationFn: async (data: PostFormInput) => {
-      // Генерируем MDX контент с frontmatter
       const mdxContent = generateMDXContent(
         data.title,
         data.description,
@@ -36,17 +35,17 @@ export function useCreatePost() {
           tags: data.tags || [],
           category: data.category,
           draft: data.draft,
+          editorType: data.editorType || 'markdown',
         }
       );
 
-      // Отправляем на сервер
       return postsApi.createPost({
-        filename: `${data.slug}.mdx`,
+        filename: data.slug + '.mdx',
         content: mdxContent,
       });
     },
     onSuccess: () => {
-      // Инвалидируем кеш постов для обновления списка
+      // Инвалидируем кеш постов после создания
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
@@ -67,6 +66,7 @@ export function useUpdatePost() {
           tags: data.tags || [],
           category: data.category,
           draft: data.draft,
+          editorType: data.editorType || 'markdown',
         }
       );
 

@@ -8,6 +8,7 @@ export interface Post {
   tags?: string[];
   category?: string;
   draft?: boolean;
+  editorType?: 'markdown' | 'tiptap' | 'blocks';
 }
 
 export interface PostFormValues {
@@ -19,6 +20,7 @@ export interface PostFormValues {
   tags?: string[];
   category?: string;
   draft?: boolean;
+  editorType?: 'markdown' | 'tiptap' | 'blocks';
 }
 
 export interface PostsListResponse {

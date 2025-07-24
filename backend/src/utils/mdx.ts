@@ -52,6 +52,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       tags: data.tags || [],
       category: data.category,
       draft: data.draft || false,
+      editorType: data.editorType as 'markdown' | 'tiptap' | 'blocks' || 'markdown',
     };
   } catch (error) {
     return null;

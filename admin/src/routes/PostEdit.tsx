@@ -99,6 +99,7 @@ export function PostEdit() {
     tags: post.tags || [],
     category: post.category || '',
     draft: post.draft || false,
+    editorType: parsedContent.editorType || 'markdown',
   };
 
   return (

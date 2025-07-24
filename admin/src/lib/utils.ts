@@ -82,6 +82,7 @@ export function generateMDXContent(
     tags?: string[];
     category?: string;
     draft?: boolean;
+    editorType?: 'markdown' | 'tiptap' | 'blocks';
   }
 ): string {
   const frontmatter = [
@@ -104,17 +105,28 @@ export function generateMDXContent(
   }
 
   frontmatter.push(`draft: ${options?.draft || false}`);
+  
+  if (options?.editorType) {
+    frontmatter.push(`editorType: "${options.editorType}"`);
+  }
+  
   frontmatter.push('---');
 
   return `${frontmatter.join('\n')}\n\n${content}`;
 }
 
-export function parseMDXContent(post: any): { content: string } {
+export function parseMDXContent(post: any): { content: string; editorType?: 'markdown' | 'tiptap' | 'blocks' } {
   // Если у поста есть отдельное поле content, используем его
   if (post.content && typeof post.content === 'string') {
-    return { content: post.content };
+    return { 
+      content: post.content,
+      editorType: post.editorType || 'markdown'
+    };
   }
   
-  // Иначе возвращаем пустое содержимое
-  return { content: '' };
+  // Иначе возвращаем пустое содержимое с типом по умолчанию
+  return { 
+    content: '',
+    editorType: 'markdown'
+  };
 } 

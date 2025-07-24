@@ -1,6 +1,6 @@
 {
   "name": "pxlr-cms",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Full-stack CMS with Fastify backend, React admin panel, and Next.js frontend",
   "private": true,
   "scripts": {
@@ -13,6 +13,10 @@
     "open:browser": "wait-on http://localhost:3000 && open-cli http://localhost:3000",
     "open:admin": "wait-on http://localhost:5173 && open-cli http://localhost:5173",
     "install:all": "npm install && cd backend && npm install && cd ../admin && npm install && cd ../frontend && npm install",
+    "lint": "npm run lint:backend && npm run lint:admin && npm run lint:frontend",
+    "lint:backend": "cd backend && npx tsc --noEmit",
+    "lint:admin": "cd admin && npm run lint",
+    "lint:frontend": "cd frontend && npm run lint",
     "build": "npm run sync && concurrently \"npm run build:backend\" \"npm run build:admin\" \"npm run build:frontend\"",
     "build:backend": "cd backend && npm run build",
     "build:admin": "cd admin && npm run build",

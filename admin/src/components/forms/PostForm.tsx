@@ -48,7 +48,9 @@ export function PostForm({
   isLoading = false,
   submitLabel = "Создать пост" 
 }: PostFormProps) {
-  const [editorType, setEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>('markdown');
+  const [editorType, setEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>(
+    defaultValues?.editorType || 'markdown'
+  );
   const [showSwitchDialog, setShowSwitchDialog] = useState(false);
   const [pendingEditorType, setPendingEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>('markdown');
   const [isContentFullscreen, setIsContentFullscreen] = useState(false);
@@ -68,6 +70,7 @@ export function PostForm({
       tags: [],
       category: '',
       draft: false,
+      editorType: 'markdown',
       ...defaultValues,
     },
   });
@@ -101,6 +104,7 @@ export function PostForm({
       setShowSwitchDialog(true);
     } else {
       setEditorType(newType);
+      form.setValue('editorType', newType); // Сохраняем тип редактора
       const editorName = newType === 'markdown' ? 'Markdown' : newType === 'tiptap' ? 'TipTap' : 'блочный';
       toast.success(`Переключено на ${editorName}`);
     }
@@ -109,6 +113,7 @@ export function PostForm({
   const confirmEditorSwitch = () => {
     setEditorType(pendingEditorType);
     form.setValue('content', ''); // Очищаем контент
+    form.setValue('editorType', pendingEditorType); // Сохраняем тип редактора
     setShowSwitchDialog(false);
     const editorName = pendingEditorType === 'markdown' ? 'Markdown' : pendingEditorType === 'tiptap' ? 'TipTap' : 'блочный';
     toast.success(`Переключено на ${editorName}`);
