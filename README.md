@@ -6,7 +6,7 @@
 
 <img width="1729" height="959" alt="cover" src="https://github.com/user-attachments/assets/d4bef8d4-29e2-4e27-b421-baeb6e868b66" /><br/>
 
-[![Version](https://img.shields.io/badge/version-0.5.1-blue.svg)](https://github.com/fubon/pxlr-cms/releases/tag/v0.5.1)
+[![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](https://github.com/fubon/pxlr-cms/releases/tag/v0.6.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
@@ -37,7 +37,7 @@ PXLR CMS — это современная система управления �
 - 📖 **Динамические страницы** постов с SEO оптимизацией
 - 🏷️ **Система тегов** и фильтрация контента
 
-## ✨ **Ключевые возможности v0.5.1**
+## ✨ **Ключевые возможности v0.6.0**
 
 ### 🔧 **Исправления редактирования постов**
 - 💾 **Запоминание типа редактора** - система помнит, в каком редакторе был создан пост

@@ -84,6 +84,8 @@ async function getPostBySlug(slug) {
             tags: data.tags || [],
             category: data.category,
             draft: data.draft || false,
+            editorType: data.editorType || 'markdown',
+            coverImage: data.coverImage,
         };
     }
     catch (error) {

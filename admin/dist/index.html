@@ -1,15 +1,26 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <title>PXLR CMS - Админ-панель</title>
     <meta name="description" content="Панель управления контентом PXLR CMS" />
-    <script type="module" crossorigin src="/assets/index-BlTkn06t.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DGqPFr8U.css">
+    <style>
+      /* Предотвращаем мигание при загрузке */
+      html {
+        transition: color-scheme 0.2s ease;
+      }
+      
+      body {
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-LNssO-xJ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BSK5mQbb.css">
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="h-full">
+    <div id="root" class="h-full"></div>
   </body>
 </html> 

@@ -18,6 +18,7 @@ export interface Post {
   tags?: string[];
   category?: string;
   draft?: boolean;
+  coverImage?: string;
 }
 
 export interface PostsResponse {
@@ -166,6 +167,7 @@ export function getPostBySlug(slug: string): Post | null {
       tags: data.tags || [],
       category: data.category,
       draft: data.draft || false,
+      coverImage: data.coverImage,
     };
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);

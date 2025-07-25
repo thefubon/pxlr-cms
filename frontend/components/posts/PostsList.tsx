@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatDate, formatCount } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,23 +32,44 @@ export function PostsList({ postsData }: PostsListProps) {
       <div className="grid gap-6">
         {posts.map((post) => (
           <Card key={post.slug} className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <CardTitle className="text-xl mb-2">
-                    <Link 
-                      href={`/posts/${post.slug}`}
-                      className="hover:text-primary transition-colors"
-                    >
-                      {post.title}
-                    </Link>
-                  </CardTitle>
-                  
-                  <CardDescription className="text-base leading-relaxed">
-                    {post.description}
-                  </CardDescription>
+            <div className="flex flex-col md:flex-row">
+              {/* Cover Image */}
+              {post.coverImage && (
+                <div className="md:w-80 md:shrink-0">
+                  <div className="relative w-full h-48 md:h-full">
+                    <Image
+                      src={post.coverImage.startsWith('/uploads/') 
+                        ? `http://localhost:3333${post.coverImage}` 
+                        : post.coverImage}
+                      alt={post.title}
+                      width={320}
+                      height={180}
+                      className="w-full h-full object-cover md:rounded-l-lg rounded-t-lg md:rounded-tr-none"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
+              
+              {/* Content */}
+              <div className="flex-1">
+                <CardHeader>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-xl mb-2">
+                        <Link 
+                          href={`/posts/${post.slug}`}
+                          className="hover:text-primary transition-colors"
+                        >
+                          {post.title}
+                        </Link>
+                      </CardTitle>
+                      
+                      <CardDescription className="text-base leading-relaxed">
+                        {post.description}
+                      </CardDescription>
+                    </div>
+                  </div>
               
               {/* Meta Information */}
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground pt-2">
@@ -94,7 +116,7 @@ export function PostsList({ postsData }: PostsListProps) {
             </CardHeader>
             
             {(post.category || (post.tags && post.tags.length > 0)) && (
-              <CardContent className="pt-0">
+              <CardContent className="pt-4">
                 <div className="flex flex-wrap gap-2">
                   {post.category && (
                     <Badge 
@@ -128,9 +150,11 @@ export function PostsList({ postsData }: PostsListProps) {
                 </div>
               </CardContent>
             )}
-          </Card>
-        ))}
-      </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
 
       {/* Pagination */}
       <PostsPagination totalPages={totalPages} currentPage={currentPage} />

@@ -41,6 +41,10 @@ export const postFormInputSchema = z.object({
   editorType: z
     .enum(['markdown', 'tiptap', 'blocks'])
     .default('markdown'),
+
+  coverImage: z
+    .string()
+    .optional(),
 });
 
 // Схема для обработки данных (с трансформацией тегов в строку)

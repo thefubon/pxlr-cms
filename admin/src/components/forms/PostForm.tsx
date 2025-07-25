@@ -26,11 +26,11 @@ import {
 import { postFormInputSchema, PostFormInput } from '@/lib/validations';
 import { generateSlug } from '@/lib/utils';
 import { useSettings } from '@/hooks/useSettings';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { BlockEditor } from './BlockEditor';
 import { TiptapEditor } from './TiptapEditor';
 import { MarkdownEditor } from './MarkdownEditor';
-import { RefreshCw, Package, Edit3, FileText, Maximize2, X } from 'lucide-react';
+import { RefreshCw, Package, Edit3, FileText, Maximize2, X, Upload, Loader2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface PostFormProps {
@@ -54,6 +54,8 @@ export function PostForm({
   const [showSwitchDialog, setShowSwitchDialog] = useState(false);
   const [pendingEditorType, setPendingEditorType] = useState<'markdown' | 'tiptap' | 'blocks'>('markdown');
   const [isContentFullscreen, setIsContentFullscreen] = useState(false);
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
+  const coverFileInputRef = useRef<HTMLInputElement>(null);
 
   // Загружаем настройки для получения категорий
   const { data: settings } = useSettings();
@@ -71,6 +73,7 @@ export function PostForm({
       category: '',
       draft: false,
       editorType: 'markdown',
+      coverImage: '',
       ...defaultValues,
     },
   });
@@ -92,6 +95,60 @@ export function PostForm({
       const slug = generateSlug(currentTitle);
       form.setValue('slug', slug);
     }
+  };
+
+  // Функции для загрузки обложки
+  const handleCoverUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Проверяем размер файла (1MB)
+    if (file.size > 1024 * 1024) {
+      toast.error('Размер файла не должен превышать 1MB');
+      return;
+    }
+
+    // Проверяем тип файла
+    if (!file.type.startsWith('image/')) {
+      toast.error('Поддерживаются только изображения');
+      return;
+    }
+
+    setIsUploadingCover(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('http://localhost:3333/api/uploads/image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Ошибка загрузки файла');
+      }
+
+      const data = await response.json();
+      
+      // Обновляем поле с новым URL
+      form.setValue('coverImage', data.url);
+      toast.success('Обложка успешно загружена');
+    } catch (error) {
+      console.error('Ошибка загрузки:', error);
+      toast.error(error instanceof Error ? error.message : 'Ошибка загрузки файла');
+    } finally {
+      setIsUploadingCover(false);
+      // Очищаем input для возможности повторной загрузки того же файла
+      if (coverFileInputRef.current) {
+        coverFileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const removeCoverImage = () => {
+    form.setValue('coverImage', '');
   };
 
   // Функции переключения редакторов
@@ -216,6 +273,83 @@ export function PostForm({
                   {...field} 
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Обложка */}
+        <FormField
+          control={form.control}
+          name="coverImage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Обложка поста</FormLabel>
+              <FormControl>
+                <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <Input
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      placeholder="URL обложки или загрузите файл"
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => coverFileInputRef.current?.click()}
+                      disabled={isUploadingCover}
+                      className="shrink-0"
+                    >
+                      {isUploadingCover ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Загрузка...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Загрузить
+                        </>
+                      )}
+                    </Button>
+                    {field.value && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={removeCoverImage}
+                        className="shrink-0"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <input
+                    ref={coverFileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleCoverUpload}
+                    className="hidden"
+                  />
+                  {field.value && (
+                    <div className="w-full max-w-md">
+                      <img
+                        src={field.value.startsWith('/uploads/') 
+                          ? `http://localhost:3333${field.value}` 
+                          : field.value}
+                        alt="Превью обложки"
+                        className="w-full h-auto rounded-lg border"
+                        style={{ maxHeight: '200px', objectFit: 'cover' }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+              <FormDescription>
+                Обложка будет отображаться в карточках постов. Поддерживаются изображения до 1MB.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -36,6 +36,7 @@ export function useCreatePost() {
           category: data.category,
           draft: data.draft,
           editorType: data.editorType || 'markdown',
+          coverImage: data.coverImage,
         }
       );
 
@@ -67,6 +68,7 @@ export function useUpdatePost() {
           category: data.category,
           draft: data.draft,
           editorType: data.editorType || 'markdown',
+          coverImage: data.coverImage,
         }
       );
 

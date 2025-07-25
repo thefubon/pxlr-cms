@@ -83,6 +83,7 @@ export function generateMDXContent(
     category?: string;
     draft?: boolean;
     editorType?: 'markdown' | 'tiptap' | 'blocks';
+    coverImage?: string;
   }
 ): string {
   const frontmatter = [
@@ -102,6 +103,10 @@ export function generateMDXContent(
 
   if (options?.category) {
     frontmatter.push(`category: "${options.category}"`);
+  }
+
+  if (options?.coverImage) {
+    frontmatter.push(`coverImage: "${options.coverImage}"`);
   }
 
   frontmatter.push(`draft: ${options?.draft || false}`);

@@ -53,6 +53,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       category: data.category,
       draft: data.draft || false,
       editorType: data.editorType as 'markdown' | 'tiptap' | 'blocks' || 'markdown',
+      coverImage: data.coverImage,
     };
   } catch (error) {
     return null;

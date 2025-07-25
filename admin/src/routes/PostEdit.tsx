@@ -100,6 +100,7 @@ export function PostEdit() {
     category: post.category || '',
     draft: post.draft || false,
     editorType: parsedContent.editorType || 'markdown',
+    coverImage: post.coverImage || '',
   };
 
   return (
