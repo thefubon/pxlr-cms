@@ -42,8 +42,8 @@ export function PostsList({ postsData }: PostsListProps) {
                         ? `http://localhost:3333${post.coverImage}` 
                         : post.coverImage}
                       alt={post.title}
-                      width={320}
-                      height={180}
+                      width={480}
+                      height={360}
                       className="w-full h-full object-cover md:rounded-l-lg rounded-t-lg md:rounded-tr-none"
                       style={{ objectFit: 'cover' }}
                     />
