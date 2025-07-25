@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { ImageBlock } from '@/types/block';
+import { ImageBlock as ImageBlockType } from '@/types/block';
 import { Upload, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getBackendUrl } from '@/lib/utils';
 
 interface ImageBlockComponentProps {
-  block: ImageBlock;
-  onUpdate: (updates: Partial<ImageBlock>) => void;
+  block: ImageBlockType;
+  onUpdate: (updates: Partial<ImageBlockType>) => void;
   disabled?: boolean;
 }
 
@@ -42,7 +43,7 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://localhost:3333/api/uploads/image', {
+      const response = await fetch(`${getBackendUrl()}/api/uploads/image`, {
         method: 'POST',
         body: formData,
       });
@@ -86,7 +87,7 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
         {block.src && block.src.trim() ? (
           <div className="space-y-2">
             <img
-              src={block.src.startsWith('/uploads/') ? `http://localhost:3333${block.src}` : block.src}
+              src={block.src.startsWith('/uploads/') ? `${getBackendUrl()}${block.src}` : block.src}
               alt={block.alt}
               className="max-w-full h-auto rounded"
               onError={(e) => {

@@ -45,6 +45,7 @@ import {
   Undo,
   Redo
 } from 'lucide-react';
+import { getBackendUrl } from '@/lib/utils';
 
 interface TiptapEditorProps {
   value: string;
@@ -238,7 +239,7 @@ export const TiptapEditor: React.FC<TiptapEditorProps> = ({
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://localhost:3333/api/uploads/image', {
+      const response = await fetch(`${getBackendUrl()}/api/uploads/image`, {
         method: 'POST',
         body: formData,
       });
@@ -250,7 +251,7 @@ export const TiptapEditor: React.FC<TiptapEditorProps> = ({
 
       const data = await response.json();
       const imageUrl = data.url.startsWith('/uploads/') 
-        ? `http://localhost:3333${data.url}` 
+        ? `${getBackendUrl()}${data.url}` 
         : data.url;
 
       editor?.chain().focus().setImage({ src: imageUrl, alt: data.originalName || 'Загруженное изображение' }).run();

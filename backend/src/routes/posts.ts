@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
-import { Post, CreatePostRequest, UpdatePostRequest, PostsListResponse, ApiErrorResponse } from '@/types/post';
+import { Post, CreatePostRequest, CreatePostFromFormRequest, UpdatePostRequest, PostsListResponse, ApiErrorResponse } from '@/types/post';
 import * as mdxUtils from '@/utils/mdx';
 import * as path from 'path';
 
@@ -35,7 +35,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
     }
   });
 
-  // Создать новый пост
+  // Создать новый пост (старый API)
   fastify.post<{ Body: CreatePostRequest; Reply: Post | ApiErrorResponse }>('/posts', async (request, reply) => {
     const { filename, content } = request.body;
     
@@ -49,6 +49,39 @@ const postsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
     
     try {
       const post = await mdxUtils.createPost(slug, content);
+      reply.status(201).send(post);
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('already exists')) {
+        return reply.status(409).send({ error: error.message });
+      } else {
+        return reply.status(500).send({ error: 'Failed to create post' });
+      }
+    }
+  });
+
+  // Создать новый пост из формы админки
+  fastify.post<{ Body: CreatePostFromFormRequest; Reply: Post | ApiErrorResponse }>('/posts/form', async (request, reply) => {
+    const { title, description, slug, content, date, author, tags, category, draft, editorType, coverImage } = request.body;
+    
+    if (!title || !description || !slug || !content || !date) {
+      reply.status(400).send({ error: 'Title, description, slug, content and date are required' });
+      return;
+    }
+    
+    try {
+      const post = await mdxUtils.createPostFromForm({
+        title,
+        description,
+        slug,
+        content,
+        date,
+        author,
+        tags,
+        category,
+        draft,
+        editorType,
+        coverImage,
+      });
       reply.status(201).send(post);
     } catch (error) {
       if (error instanceof Error && error.message.includes('already exists')) {

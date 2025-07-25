@@ -58,6 +58,10 @@ async function start() {
                 'http://localhost:5174',
                 'http://localhost:5175',
                 'http://localhost:5176',
+                'https://pxlr.ru',
+                'https://www.pxlr.ru',
+                'https://admin.pxlr.ru',
+                'https://www.admin.pxlr.ru',
             ],
             credentials: true,
         });

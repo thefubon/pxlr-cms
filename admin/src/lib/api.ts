@@ -1,8 +1,18 @@
 import axios from 'axios';
 import { Post, PostsListResponse, CreatePostRequest, UpdatePostRequest } from '@/types/post';
 import { Settings, SettingsResponse } from '@/types/settings';
+import { PostFormInput } from '@/lib/validations';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3333/api';
+// Определяем URL API в зависимости от окружения
+const getApiBaseUrl = () => {
+  if (import.meta.env.PROD) {
+    // В продакшене используем относительный URL
+    return `${window.location.origin.replace(':5174', ':3333').replace(':5173', ':3333')}/api`;
+  }
+  return import.meta.env.VITE_API_URL ?? 'http://localhost:3333/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -57,9 +67,15 @@ export const postsApi = {
     return response.data;
   },
 
-  // Создать новый пост
+  // Создать новый пост (старый API)
   async createPost(data: CreatePostRequest): Promise<Post> {
     const response = await api.post<Post>('/posts', data);
+    return response.data;
+  },
+
+  // Создать новый пост из формы
+  async createPostFromForm(data: PostFormInput): Promise<Post> {
+    const response = await api.post<Post>('/posts/form', data);
     return response.data;
   },
 

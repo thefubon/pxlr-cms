@@ -17,6 +17,7 @@ export interface PostFormValues {
   description: string;
   content: string;
   slug: string;
+  date: string;
   author?: string;
   tags?: string[];
   category?: string;

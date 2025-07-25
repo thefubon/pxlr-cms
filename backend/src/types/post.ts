@@ -29,6 +29,20 @@ export interface CreatePostRequest {
   content: string;
 }
 
+export interface CreatePostFromFormRequest {
+  title: string;
+  description: string;
+  slug: string;
+  content: string;
+  date: string;
+  author?: string;
+  tags?: string[];
+  category?: string;
+  draft?: boolean;
+  editorType?: 'markdown' | 'tiptap' | 'blocks';
+  coverImage?: string;
+}
+
 export interface UpdatePostRequest {
   content: string;
 }

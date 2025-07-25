@@ -26,24 +26,7 @@ export function useCreatePost() {
 
   return useMutation({
     mutationFn: async (data: PostFormInput) => {
-      const mdxContent = generateMDXContent(
-        data.title,
-        data.description,
-        data.content,
-        {
-          author: data.author,
-          tags: data.tags || [],
-          category: data.category,
-          draft: data.draft,
-          editorType: data.editorType || 'markdown',
-          coverImage: data.coverImage,
-        }
-      );
-
-      return postsApi.createPost({
-        filename: data.slug + '.mdx',
-        content: mdxContent,
-      });
+      return postsApi.createPostFromForm(data);
     },
     onSuccess: () => {
       // Инвалидируем кеш постов после создания

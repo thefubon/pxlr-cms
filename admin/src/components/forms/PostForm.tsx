@@ -24,13 +24,13 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { postFormInputSchema, PostFormInput } from '@/lib/validations';
-import { generateSlug } from '@/lib/utils';
+import { generateSlug, getBackendUrl } from '@/lib/utils';
 import { useSettings } from '@/hooks/useSettings';
 import { useEffect, useState, useRef } from 'react';
 import { BlockEditor } from './BlockEditor';
 import { TiptapEditor } from './TiptapEditor';
 import { MarkdownEditor } from './MarkdownEditor';
-import { RefreshCw, Package, Edit3, FileText, Maximize2, X, Upload, Loader2, Trash2 } from 'lucide-react';
+import { RefreshCw, Package, Edit3, FileText, Maximize2, X, Upload, Loader2, Trash2, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface PostFormProps {
@@ -68,6 +68,7 @@ export function PostForm({
       description: '',
       slug: '',
       content: '',
+      date: new Date().toISOString().split('T')[0], // Сегодняшняя дата в формате YYYY-MM-DD
       author: '',
       tags: [],
       category: '',
@@ -120,7 +121,7 @@ export function PostForm({
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://localhost:3333/api/uploads/image', {
+      const response = await fetch(`${getBackendUrl()}/api/uploads/image`, {
         method: 'POST',
         body: formData,
       });
@@ -337,7 +338,7 @@ export function PostForm({
                     <div className="w-full max-w-md">
                       <img
                         src={field.value.startsWith('/uploads/') 
-                          ? `http://localhost:3333${field.value}` 
+                          ? `${getBackendUrl()}${field.value}` 
                           : field.value}
                         alt="Превью обложки"
                         className="w-full h-auto rounded-lg border"
@@ -383,7 +384,7 @@ export function PostForm({
           )}
         />
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-3">
           {/* Автор */}
           <FormField
             control={form.control}
@@ -394,6 +395,31 @@ export function PostForm({
                 <FormControl>
                   <Input placeholder="Имя автора" {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Дата */}
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Дата публикации</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input 
+                      type="date" 
+                      {...field} 
+                      className="pl-10"
+                    />
+                    <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  </div>
+                </FormControl>
+                <FormDescription>
+                  Дата публикации поста
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

@@ -22,6 +22,10 @@ export const postFormInputSchema = z.object({
     .string()
     .min(10, "Содержимое должно содержать минимум 10 символов"),
   
+  date: z
+    .string()
+    .min(1, "Дата обязательна"),
+  
   author: z
     .string()
     .optional(),

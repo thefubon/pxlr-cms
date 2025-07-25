@@ -18,12 +18,18 @@ async function start() {
     // Регистрируем CORS
     await fastify.register(cors, {
       origin: [
+        // Development URLs
         'http://localhost:3000', // Next.js frontend
         'http://localhost:3002', // Next.js frontend (alternative port)
         'http://localhost:5173', // Vite admin
         'http://localhost:5174', // Vite admin (alternative port)
         'http://localhost:5175', // Vite admin (alternative port)
         'http://localhost:5176', // Vite admin (alternative port)
+        // Production URLs
+        'https://pxlr.ru',
+        'https://www.pxlr.ru',
+        'https://admin.pxlr.ru',
+        'https://www.admin.pxlr.ru',
       ],
       credentials: true,
     });

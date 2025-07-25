@@ -127,9 +127,9 @@ export async function getPosts(options: {
   posts = posts.filter(post => !post.draft);
 
   const totalCount = posts.length;
-  const totalPages = Math.ceil(totalCount / perPage);
-  const startIndex = (page - 1) * perPage;
-  const endIndex = startIndex + perPage;
+  const totalPages = Math.ceil(totalCount / (perPage || 6));
+  const startIndex = (page - 1) * (perPage || 6);
+  const endIndex = startIndex + (perPage || 6);
   
   const paginatedPosts = posts.slice(startIndex, endIndex);
 
@@ -138,7 +138,7 @@ export async function getPosts(options: {
     totalCount,
     totalPages,
     currentPage: page,
-    postsPerPage: perPage,
+    postsPerPage: perPage || 6,
   };
 }
 

@@ -1,9 +1,18 @@
-import { clsx, type ClassValue } from "clsx"
+import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+// Функция для получения правильного backend URL
+export const getBackendUrl = () => {
+  if (process.env.NODE_ENV === 'production') {
+    // В продакшене используем переменную окружения или относительный URL
+    return process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.pxlr.ru';
+  }
+  return 'http://localhost:3333';
+};
 
 export function formatDate(date: string | Date): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date

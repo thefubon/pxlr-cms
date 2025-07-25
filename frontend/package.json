@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.6.0",
+  "name": "pxlr-cms-frontend",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -41,5 +41,7 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.5",
     "typescript": "^5"
-  }
+  },
+  "author": "Anthony Fubon <fubon.ru>",
+  "license": "MIT"
 }

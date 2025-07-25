@@ -1,6 +1,6 @@
 {
   "name": "pxlr-cms",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Full-stack CMS with Fastify backend, React admin panel, and Next.js frontend",
   "private": true,
   "scripts": {
@@ -47,6 +47,11 @@
     "shadcn-ui",
     "mdx"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "Anthony Fubon <fubon.ru>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fubon/pxlr-cms.git"
+  },
+  "homepage": "https://pxlr.ru"
 } 

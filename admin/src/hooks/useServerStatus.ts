@@ -10,7 +10,7 @@ export interface ServerStatus {
 // Определяем URL backend в зависимости от окружения
 const getBackendUrl = () => {
   if (import.meta.env.PROD) {
-    // В продакшене попробуем относительный URL
+    // В продакшене используем относительный URL
     return window.location.origin.replace(':5174', ':3333').replace(':5173', ':3333');
   }
   return 'http://localhost:3333';
@@ -19,6 +19,7 @@ const getBackendUrl = () => {
 // Frontend URL для iframe preview
 export const getFrontendUrl = () => {
   if (import.meta.env.PROD) {
+    // В продакшене используем относительный URL
     return window.location.origin.replace(':5174', ':3001').replace(':5173', ':3001');
   }
   return 'http://localhost:3001'; // Next.js запустился на порту 3001

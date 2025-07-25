@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getAllPosts, getAllTags } from '@/lib/mdx';
+import { getBackendUrl } from '@/lib/utils';
 import { 
   FileText, 
   Zap, 
@@ -112,15 +113,15 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-full px-6 py-3 text-sm font-medium shadow-lg">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
                 <span className="text-slate-700 dark:text-slate-300">Современная CMS нового поколения</span>
-                <Badge variant="secondary" className="ml-2 text-xs">v0.6.0</Badge>
+                <Badge variant="secondary" className="ml-2 text-xs">v0.7.0</Badge>
               </div>
               
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-blue-100 dark:from-emerald-950/50 dark:to-blue-950/50 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800 rounded-full px-4 py-2 text-sm font-medium shadow-md">
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Обновлено в v0.6.0:</span>
+                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Обновлено в v0.7.0:</span>
                 </div>
-                <span className="text-blue-700 dark:text-blue-300 font-medium">Система обложек для постов</span>
+                <span className="text-blue-700 dark:text-blue-300 font-medium">Поле даты и хронологическая сортировка</span>
               </div>
             </div>
 
@@ -500,7 +501,7 @@ export default function Home() {
               Всё для современного контент-менеджмента
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Мощные инструменты для создания, редактирования и управления контентом. Полная поддержка темной темы, адаптивный дизайн и система обложек в версии 0.6.0
+                              Мощные инструменты для создания, редактирования и управления контентом. Полная поддержка темной темы, адаптивный дизайн и система обложек в версии 0.7.0
             </p>
           </div>
 
@@ -691,7 +692,7 @@ export default function Home() {
                     <div className="relative w-full h-48 overflow-hidden">
                       <Image
                         src={post.coverImage.startsWith('/uploads/') 
-                          ? `http://localhost:3333${post.coverImage}` 
+                          ? `${getBackendUrl()}${post.coverImage}` 
                           : post.coverImage}
                         alt={post.title}
                         width={320}
@@ -771,7 +772,7 @@ export default function Home() {
                 Открытый исходный код
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                PXLR CMS — это open source проект. Версия 0.6.0 добавляет систему обложек для постов - теперь можно загружать и отображать красивые обложки в карточках постов. Изучайте код, вносите изменения и адаптируйте под свои нужды
+                PXLR CMS — это open source проект. Версия 0.7.0 добавляет поле даты и хронологическую сортировку постов - теперь можно устанавливать даты публикации и посты автоматически сортируются по дате. Изучайте код, вносите изменения и адаптируйте под свои нужды
               </p>
             </div>
 

@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import matter from 'gray-matter';
-import { Post, PostMetadata } from '@/types/post';
+import { Post, PostMetadata, CreatePostFromFormRequest } from '@/types/post';
 
 export const CONTENT_DIR = path.join(process.cwd(), 'content');
 
@@ -117,4 +117,44 @@ export async function deletePost(slug: string): Promise<boolean> {
 export function generatePostContent(metadata: PostMetadata, content: string): string {
   const frontmatter = matter.stringify('', metadata);
   return `${frontmatter.trim()}\n\n${content}`;
+}
+
+// Создать новый пост из данных формы
+export async function createPostFromForm(data: CreatePostFromFormRequest): Promise<Post> {
+  await ensureContentDir();
+  
+  const filePath = path.join(CONTENT_DIR, `${data.slug}.mdx`);
+  
+  // Проверяем, что файл не существует
+  const exists = await fs.pathExists(filePath);
+  if (exists) {
+    throw new Error(`Post with slug "${data.slug}" already exists`);
+  }
+  
+  // Создаем метаданные для frontmatter
+  const metadata: PostMetadata = {
+    title: data.title,
+    description: data.description,
+    date: data.date,
+    author: data.author,
+    tags: data.tags || [],
+    category: data.category,
+    draft: data.draft || false,
+    editorType: data.editorType || 'markdown',
+    coverImage: data.coverImage,
+  };
+  
+  // Генерируем контент с frontmatter
+  const postContent = generatePostContent(metadata, data.content);
+  
+  // Записываем файл
+  await fs.writeFile(filePath, postContent, 'utf-8');
+  
+  // Возвращаем созданный пост
+  const post = await getPostBySlug(data.slug);
+  if (!post) {
+    throw new Error('Failed to create post');
+  }
+  
+  return post;
 } 

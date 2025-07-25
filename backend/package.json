@@ -1,6 +1,6 @@
 {
-  "name": "backend",
-  "version": "0.6.0",
+  "name": "pxlr-cms-backend",
+  "version": "0.7.0",
   "description": "Fastify API for managing MDX content",
   "main": "dist/server.js",
   "scripts": {
@@ -26,5 +26,7 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "author": "Anthony Fubon <fubon.ru>",
+  "license": "MIT"
 }

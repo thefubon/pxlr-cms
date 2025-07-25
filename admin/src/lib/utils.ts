@@ -78,6 +78,7 @@ export function generateMDXContent(
   description: string,
   content: string,
   options?: {
+    date?: string;
     author?: string;
     tags?: string[];
     category?: string;
@@ -90,7 +91,7 @@ export function generateMDXContent(
     '---',
     `title: "${title}"`,
     `description: "${description}"`,
-    `date: "${new Date().toISOString()}"`,
+    `date: "${options?.date || new Date().toISOString()}"`,
   ];
 
   if (options?.author) {
@@ -135,3 +136,17 @@ export function parseMDXContent(post: any): { content: string; editorType?: 'mar
     editorType: 'markdown'
   };
 } 
+
+// Функция для получения правильного backend URL
+export const getBackendUrl = () => {
+  if (import.meta.env.PROD) {
+    // В продакшене используем относительный URL
+    return window.location.origin.replace(':5174', ':3333').replace(':5173', ':3333');
+  }
+  return 'http://localhost:3333';
+};
+
+// Функция для получения правильного API URL
+export const getApiUrl = () => {
+  return `${getBackendUrl()}/api`;
+}; 

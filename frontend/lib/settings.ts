@@ -1,21 +1,6 @@
 import axios from 'axios';
-
-// Типы настроек (совпадают с backend)
-export interface GeneralSettings {
-  siteTitle: string;
-  siteDescription: string;
-}
-
-export interface PostSettings {
-  postsPerPage: number;
-}
-
-export interface Settings {
-  general: GeneralSettings;
-  posts: PostSettings;
-}
-
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3333';
+import { Settings, GeneralSettings, PostSettings } from '@/types/settings';
+import { getBackendUrl } from '@/lib/utils';
 
 // Кэш настроек
 let settingsCache: Settings | null = null;
@@ -30,7 +15,7 @@ export async function getSettings(): Promise<Settings> {
   }
 
   try {
-    const response = await axios.get<Settings>(`${BACKEND_URL}/api/settings`);
+    const response = await axios.get<Settings>(`${getBackendUrl()}/api/settings`);
     settingsCache = response.data;
     cacheTimestamp = now;
     return response.data;
