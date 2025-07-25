@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getAllPosts, getAllTags } from '@/lib/mdx';
-import { getBackendUrl } from '@/lib/utils';
 import { 
   FileText, 
   Zap, 
@@ -691,8 +690,8 @@ export default function Home() {
                   {post.coverImage && (
                     <div className="relative w-full h-48 overflow-hidden">
                       <Image
-                        src={post.coverImage.startsWith('/uploads/') 
-                          ? `${getBackendUrl()}${post.coverImage}` 
+                        src={post.coverImage.startsWith('/uploads/')
+                          ? post.coverImage
                           : post.coverImage}
                         alt={post.title}
                         width={320}

@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 // Функция для получения правильного backend URL
 export const getBackendUrl = () => {
   if (process.env.NODE_ENV === 'production') {
-    // В продакшене используем переменную окружения или относительный URL
-    return process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.pxlr.ru';
+    // В продакшене используем относительный URL
+    return process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || '';
   }
   return 'http://localhost:3333';
 };

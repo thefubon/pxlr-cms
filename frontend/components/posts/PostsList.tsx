@@ -7,7 +7,6 @@ import { Separator } from '@/components/ui/separator';
 import { PostsPagination } from './PostsPagination';
 import { PostsResponse } from '@/lib/mdx';
 import { Calendar, User, Tag, Folder } from 'lucide-react';
-import { getBackendUrl } from '@/lib/utils';
 
 interface PostsListProps {
   postsData: PostsResponse;
@@ -39,8 +38,8 @@ export function PostsList({ postsData }: PostsListProps) {
                 <div className="md:w-80 md:shrink-0">
                   <div className="relative w-full h-48 md:h-full">
                     <Image
-                      src={post.coverImage.startsWith('/uploads/') 
-                        ? `${getBackendUrl()}${post.coverImage}` 
+                      src={post.coverImage.startsWith('/uploads/')
+                        ? post.coverImage
                         : post.coverImage}
                       alt={post.title}
                       width={480}

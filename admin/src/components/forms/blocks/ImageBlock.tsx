@@ -87,7 +87,7 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
         {block.src && block.src.trim() ? (
           <div className="space-y-2">
             <img
-              src={block.src.startsWith('/uploads/') ? `${getBackendUrl()}${block.src}` : block.src}
+              src={block.src.startsWith('/uploads/') ? block.src : block.src}
               alt={block.alt}
               className="max-w-full h-auto rounded"
               onError={(e) => {

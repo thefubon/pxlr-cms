@@ -251,7 +251,7 @@ export const TiptapEditor: React.FC<TiptapEditorProps> = ({
 
       const data = await response.json();
       const imageUrl = data.url.startsWith('/uploads/') 
-        ? `${getBackendUrl()}${data.url}` 
+        ? data.url 
         : data.url;
 
       editor?.chain().focus().setImage({ src: imageUrl, alt: data.originalName || 'Загруженное изображение' }).run();

@@ -338,7 +338,7 @@ export function PostForm({
                     <div className="w-full max-w-md">
                       <img
                         src={field.value.startsWith('/uploads/') 
-                          ? `${getBackendUrl()}${field.value}` 
+                          ? field.value 
                           : field.value}
                         alt="Превью обложки"
                         className="w-full h-auto rounded-lg border"
