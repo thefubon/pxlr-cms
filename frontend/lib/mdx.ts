@@ -231,4 +231,6 @@ export function getRelatedPosts(slug: string, limit: number = 3): Post[] {
     .map(item => item.post);
 
   return relatedPosts;
-} 
+}
+
+ 

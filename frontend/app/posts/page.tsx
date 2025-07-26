@@ -107,9 +107,10 @@ export default async function PostsPage({ searchParams }: PageProps) {
           {selectedCategory
             ? `Категория: ${selectedCategory} (${postsData.totalCount})`
             : selectedTags.length > 0
-            ? `Посты с тегами: ${selectedTags.join(', ')} (${postsData.totalCount})`
-            : `Всего постов: ${postsData.totalCount}`
-          }
+            ? `Посты с тегами: ${selectedTags.join(', ')} (${
+                postsData.totalCount
+              })`
+            : `Всего постов: ${postsData.totalCount}`}
         </p>
       </div>
 
@@ -117,13 +118,13 @@ export default async function PostsPage({ searchParams }: PageProps) {
         {/* Sidebar with Filters */}
         <aside className="lg:col-span-1 space-y-6">
           <Suspense fallback={<div>Загрузка фильтров...</div>}>
-            <CategoriesFilter 
-              categories={allCategories} 
+            <CategoriesFilter
+              categories={allCategories}
               selectedCategory={selectedCategory}
               totalPosts={postsData.totalCount}
             />
-            <PostsFilter 
-              tags={allTags} 
+            <PostsFilter
+              tags={allTags}
               selectedTags={selectedTags}
               totalPosts={postsData.totalCount}
             />
@@ -138,5 +139,5 @@ export default async function PostsPage({ searchParams }: PageProps) {
         </main>
       </div>
     </div>
-  );
+  )
 } 

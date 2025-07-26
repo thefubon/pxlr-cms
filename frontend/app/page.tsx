@@ -112,15 +112,15 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-full px-6 py-3 text-sm font-medium shadow-lg">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
                 <span className="text-slate-700 dark:text-slate-300">Современная CMS нового поколения</span>
-                <Badge variant="secondary" className="ml-2 text-xs">v0.7.0</Badge>
+                <Badge variant="secondary" className="ml-2 text-xs">v0.8.0</Badge>
               </div>
               
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-blue-100 dark:from-emerald-950/50 dark:to-blue-950/50 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800 rounded-full px-4 py-2 text-sm font-medium shadow-md">
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Обновлено в v0.7.0:</span>
+                  <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Новое в v0.8.0:</span>
                 </div>
-                <span className="text-blue-700 dark:text-blue-300 font-medium">Поле даты и хронологическая сортировка</span>
+                <span className="text-blue-700 dark:text-blue-300 font-medium">Трёхколоночный layout и TOC система</span>
               </div>
             </div>
 
@@ -499,9 +499,9 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
               Всё для современного контент-менеджмента
             </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                              Мощные инструменты для создания, редактирования и управления контентом. Полная поддержка темной темы, адаптивный дизайн и система обложек в версии 0.7.0
-            </p>
+                          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+                              Мощные инструменты для создания, редактирования и управления контентом. Трёхколоночный layout с TOC системой и улучшенной навигацией в версии 0.8.0
+              </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -683,7 +683,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {latestPosts.map((post) => (
-                <Card key={post.slug} className="group border-2 hover:border-primary/20 transition-all hover:shadow-xl relative overflow-hidden">
+                <Card key={post.slug} className="group border hover:border-primary/20 transition-all shadow-none relative overflow-hidden pt-0">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   
                   {/* Cover Image */}
@@ -771,7 +771,7 @@ export default function Home() {
                 Открытый исходный код
               </h2>
               <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                PXLR CMS — это open source проект. Версия 0.7.0 добавляет поле даты и хронологическую сортировку постов - теперь можно устанавливать даты публикации и посты автоматически сортируются по дате. Изучайте код, вносите изменения и адаптируйте под свои нужды
+                PXLR CMS — это open source проект. Версия 0.8.0 представляет трёхколоночный layout для полных постов с сайдбаром автора, навигацией по категориям/тегам и TOC системой для заголовков. Изучайте код, вносите изменения и адаптируйте под свои нужды
               </p>
             </div>
 

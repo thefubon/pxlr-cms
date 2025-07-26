@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { ImageBlock as ImageBlockType } from '@/types/block';
 import { Upload, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { getBackendUrl } from '@/lib/utils';
+import { getBackendUrl, getImageUrl } from '@/lib/utils';
 
 interface ImageBlockComponentProps {
   block: ImageBlockType;
@@ -87,7 +87,7 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
         {block.src && block.src.trim() ? (
           <div className="space-y-2">
             <img
-              src={block.src.startsWith('/uploads/') ? block.src : block.src}
+              src={getImageUrl(block.src)}
               alt={block.alt}
               className="max-w-full h-auto rounded"
               onError={(e) => {

@@ -149,4 +149,40 @@ export const getBackendUrl = () => {
 // Функция для получения правильного API URL
 export const getApiUrl = () => {
   return `${getBackendUrl()}/api`;
+};
+
+// Функция для получения правильного frontend URL
+export const getFrontendUrl = () => {
+  if (import.meta.env.PROD) {
+    // В продакшене используем относительный URL
+    return window.location.origin.replace(':5174', ':3000').replace(':5173', ':3000');
+  }
+  // В разработке сначала пробуем 3001, потом 3000
+  return 'http://localhost:3001';
+};
+
+// Функция для получения альтернативного frontend URL (для fallback)
+export const getFrontendUrlFallback = () => {
+  if (import.meta.env.PROD) {
+    return getFrontendUrl();
+  }
+  return 'http://localhost:3000';
+};
+
+// Функция для формирования правильного URL изображения для превью в админке
+export const getImageUrl = (imagePath: string): string => {
+  if (!imagePath) return '';
+  
+  // Если это уже полный URL, возвращаем как есть
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  
+  // Если это путь к загруженному файлу, добавляем frontend URL
+  if (imagePath.startsWith('/uploads/')) {
+    return `${getFrontendUrl()}${imagePath}`;
+  }
+  
+  // Для остальных случаев возвращаем как есть
+  return imagePath;
 }; 

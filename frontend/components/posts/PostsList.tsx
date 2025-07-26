@@ -31,7 +31,7 @@ export function PostsList({ postsData }: PostsListProps) {
       {/* Posts Grid */}
       <div className="grid gap-6">
         {posts.map((post) => (
-          <Card key={post.slug} className="hover:shadow-md transition-shadow">
+          <Card key={post.slug} className="shadow-none transition-shadow p-0">
             <div className="flex flex-col md:flex-row">
               {/* Cover Image */}
               {post.coverImage && (
@@ -52,7 +52,7 @@ export function PostsList({ postsData }: PostsListProps) {
               )}
               
               {/* Content */}
-              <div className="flex-1">
+              <div className="flex-1 py-6">
                 <CardHeader>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">

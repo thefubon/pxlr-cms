@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { postFormInputSchema, PostFormInput } from '@/lib/validations';
-import { generateSlug, getBackendUrl } from '@/lib/utils';
+import { generateSlug, getBackendUrl, getImageUrl, getFrontendUrlFallback } from '@/lib/utils';
 import { useSettings } from '@/hooks/useSettings';
 import { useEffect, useState, useRef } from 'react';
 import { BlockEditor } from './BlockEditor';
@@ -337,12 +337,20 @@ export function PostForm({
                   {field.value && (
                     <div className="w-full max-w-md">
                       <img
-                        src={field.value.startsWith('/uploads/') 
-                          ? field.value 
-                          : field.value}
+                        src={getImageUrl(field.value)}
                         alt="Превью обложки"
                         className="w-full h-auto rounded-lg border"
                         style={{ maxHeight: '200px', objectFit: 'cover' }}
+                        onError={(e) => {
+                          console.error('Ошибка загрузки изображения:', field.value);
+                          // Fallback: пробуем загрузить с альтернативного порта
+                          const target = e.target as HTMLImageElement;
+                          if (target.src.includes(':3001') && field.value) {
+                            target.src = field.value.startsWith('/uploads/') 
+                              ? `${getFrontendUrlFallback()}${field.value}` 
+                              : field.value;
+                          }
+                        }}
                       />
                     </div>
                   )}
